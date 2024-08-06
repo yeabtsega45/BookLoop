@@ -8,13 +8,11 @@ const theme = createTheme({
     },
     secondary: {
       main: "#171b36",
+      contrastText: "#ffffff",
     },
   },
   typography: {
     fontFamily: "Roboto, Arial, sans-serif",
-    h1: {
-      fontSize: "2rem",
-    },
   },
   spacing: 8,
 });

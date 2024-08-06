@@ -16,6 +16,7 @@ export default {
         },
         text: {
           primary: "var(--color-text-primary)",
+          secondary: "var(--color-text-secondary)",
         },
       },
     },
