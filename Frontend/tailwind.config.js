@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: "var(--color-primary-light)",
+          contrast: "var(--color-primary-contrast)",
           DEFAULT: "var(--color-primary)",
           dark: "var(--color-primary-dark)",
         },
@@ -13,6 +13,9 @@ export default {
           light: "var(--color-secondary-light)",
           DEFAULT: "var(--color-secondary)",
           dark: "var(--color-secondary-dark)",
+        },
+        text: {
+          primary: "var(--color-text-primary)",
         },
       },
     },
