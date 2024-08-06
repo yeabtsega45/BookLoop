@@ -30,14 +30,15 @@ const Sidebar = () => {
         width: drawerWidth,
         height: drawerHeight,
         flexShrink: 0,
-        borderRadius: 2,
-        mx: 3,
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
           height: drawerHeight,
           boxSizing: "border-box",
           backgroundColor: theme.palette.secondary.main,
           color: theme.palette.secondary.contrastText,
+          borderRadius: "12px",
+          ml: 1,
+          mt: 2,
         },
       }}
     >
@@ -52,7 +53,7 @@ const Sidebar = () => {
       <List sx={{ px: 3 }}>
         {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
           (text, index) => (
-            <ListItem key={text}>
+            <ListItem key={text} disablePadding>
               <ListItemIcon
                 sx={{ color: theme.palette.secondary.contrastText }}
               >
@@ -70,7 +71,7 @@ const Sidebar = () => {
       <hr className="text-text-secondary py-5 mx-5" />
       <List sx={{ px: 3 }}>
         {["Notification", "Setting", "Login as Admin"].map((text, index) => (
-          <ListItem key={text}>
+          <ListItem key={text} disablePadding>
             <ListItemIcon sx={{ color: theme.palette.secondary.contrastText }}>
               {index === 0 ? <NotificationsOutlinedIcon /> : null}
               {index === 1 ? <SettingsOutlinedIcon /> : null}
