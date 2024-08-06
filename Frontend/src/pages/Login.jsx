@@ -9,14 +9,10 @@ function Login() {
   return (
     <div className="flex h-screen w-full">
       <div className="bg-secondary h-full w-[50%] flex justify-center items-center">
-        <img
-          src={group1white}
-          alt="group1white"
-          // className="h-full w-full object-contain"
-        />
+        <img src={group1white} alt="group1white" />
       </div>
       <div className="bg-white h-full w-[50%] flex flex-col justify-center px-20">
-        <div className="flex items-center pb-6">
+        <div className="flex items-center pb-10">
           <img src={group1} alt="group1" />
           <h2 className="text-3xl pl-2">Book Rent</h2>
         </div>
@@ -40,7 +36,7 @@ function Login() {
           label="Remember me"
           sx={{ mb: 2 }}
         />
-        <Button variant="contained" sx={{ mb: 2 }}>
+        <Button variant="contained" color="primary" sx={{ mb: 2 }}>
           Login
         </Button>
         <p className="text-center">
