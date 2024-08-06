@@ -1,17 +1,21 @@
 import {
+  Button,
   Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/Inbox";
-import MailIcon from "@mui/icons-material/Mail";
-import HomeIcon from "@mui/icons-material/Home";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import group1 from "@/assets/Group 1.png";
+import SpaceDashboardOutlinedIcon from "@mui/icons-material/SpaceDashboardOutlined";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const drawerWidth = 279;
 
@@ -24,34 +28,59 @@ const Sidebar = () => {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
+        borderRadius: 2,
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
           boxSizing: "border-box",
           backgroundColor: theme.palette.secondary.main,
           color: theme.palette.secondary.contrastText,
-          px: 5,
         },
       }}
     >
-      <div className="flex items-center pt-4 pb-10">
-        <MenuIcon />
-        <img src={group1} alt="group1" className="pl-4" />
-        <p className="text-primary pl-2">Book Rent</p>
+      <div className="flex flex-col px-5">
+        <div className="flex items-center pt-4 pb-10">
+          <MenuIcon />
+          <img src={group1} alt="group1" className="pl-4" />
+          <p className="text-primary text-xl pl-3">Book Rent</p>
+        </div>
+        <hr className="text-text-secondary pb-5" />
       </div>
-      <hr className="text-text-secondary pb-5" />
       <List>
-        {["Home", "Inbox", "Mail", "Profile"].map((text, index) => (
+        {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
+          (text, index) => (
+            <ListItem key={text}>
+              <ListItemIcon
+                sx={{ color: theme.palette.secondary.contrastText }}
+              >
+                {index === 0 ? <SpaceDashboardOutlinedIcon /> : null}
+                {index === 1 ? <AutoStoriesOutlinedIcon /> : null}
+                {index === 2 ? <AddBoxOutlinedIcon /> : null}
+                {index === 3 ? <AddBoxOutlinedIcon /> : null}
+                {index === 4 ? <AddBoxOutlinedIcon /> : null}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          )
+        )}
+      </List>
+      <hr className="text-text-secondary py-5" />
+      <List>
+        {["Notification", "Setting", "Login as Admin"].map((text, index) => (
           <ListItem key={text}>
             <ListItemIcon sx={{ color: theme.palette.secondary.contrastText }}>
-              {index === 0 ? <HomeIcon /> : null}
-              {index === 1 ? <InboxIcon /> : null}
-              {index === 2 ? <MailIcon /> : null}
-              {index === 3 ? <AccountCircleIcon /> : null}
+              {index === 0 ? <NotificationsOutlinedIcon /> : null}
+              {index === 1 ? <SettingsOutlinedIcon /> : null}
+              {index === 2 ? <AccountCircleOutlinedIcon /> : null}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
       </List>
+      <hr className="text-text-secondary py-5" />
+      <Button variant="contained" color="third">
+        <LogoutOutlinedIcon />
+        <span>Logout</span>
+      </Button>
     </Drawer>
   );
 };

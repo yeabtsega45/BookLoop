@@ -10,6 +10,10 @@ const theme = createTheme({
       main: "#171b36",
       contrastText: "#ffffff",
     },
+    third: {
+      main: "#ffffff33",
+      contrastText: "#ffffff",
+    },
   },
   typography: {
     fontFamily: "Roboto, Arial, sans-serif",
