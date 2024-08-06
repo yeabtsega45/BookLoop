@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   Drawer,
@@ -22,6 +23,11 @@ const drawerHeight = "96.4%";
 
 const Sidebar = () => {
   const theme = useTheme();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleListItemClick = (index) => {
+    setActiveIndex(index);
+  };
 
   return (
     <Drawer
@@ -53,7 +59,20 @@ const Sidebar = () => {
       <List sx={{ px: 3 }}>
         {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
           (text, index) => (
-            <ListItem key={text} disablePadding>
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: theme.palette.action.hover,
+                },
+                backgroundColor:
+                  activeIndex === index
+                    ? theme.palette.primary.main
+                    : "inherit",
+              }}
+              onClick={() => handleListItemClick(index)}
+            >
               <ListItemIcon
                 sx={{ color: theme.palette.secondary.contrastText }}
               >

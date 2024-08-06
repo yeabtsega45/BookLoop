@@ -14,6 +14,9 @@ const theme = createTheme({
       main: "#ffffff33",
       contrastText: "#ffffff",
     },
+    action: {
+      hover: "#00abff40",
+    },
   },
   typography: {
     fontFamily: "Roboto, Arial, sans-serif",
