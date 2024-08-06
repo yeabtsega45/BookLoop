@@ -16,31 +16,38 @@ function Login() {
         />
       </div>
       <div className="bg-white h-full w-[50%] flex flex-col justify-center px-20">
-        <div className="flex items-center pb-10">
+        <div className="flex items-center pb-6">
           <img src={group1} alt="group1" />
-          <h2 className="text-2xl pl-2">Book Rent</h2>
+          <h2 className="text-3xl pl-2">Book Rent</h2>
         </div>
-        <h3 className="text-xl pb-2">Login</h3>
-        <hr />
+        <h3 className="text-2xl pb-2">Login</h3>
+        <hr className="pb-6" />
         <TextField
           id="outlined-basic"
-          label="Outlined"
+          label="Email address"
           variant="outlined"
           sx={{ mb: 2 }}
         />
         <TextField
-          id="outlined-basic"
-          label="Outlined"
-          variant="outlined"
+          id="outlined-password-input"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
           sx={{ mb: 2 }}
         />
-        <FormControlLabel control={<Checkbox />} label="Label" sx={{ mb: 2 }} />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Remember me"
+          sx={{ mb: 2 }}
+        />
         <Button variant="contained" sx={{ mb: 2 }}>
-          Contained
+          Login
         </Button>
         <p className="text-center">
-          Haven not an account?
-          <span className="text-primary pl-1">Sign up</span>
+          Have not an account?
+          <span className="text-primary pl-1 hover:cursor-pointer">
+            Sign up
+          </span>
         </p>
       </div>
     </div>
