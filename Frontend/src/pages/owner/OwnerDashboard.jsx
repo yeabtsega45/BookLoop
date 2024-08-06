@@ -2,7 +2,7 @@ import Sidebar from "@/components/SideBar";
 
 function OwnerDashboard() {
   return (
-    <div className="m-5">
+    <div className="w-full h-full mx-5 my-auto">
       <Sidebar />
     </div>
   );

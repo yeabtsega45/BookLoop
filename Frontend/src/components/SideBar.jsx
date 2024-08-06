@@ -17,7 +17,8 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
-const drawerWidth = 279;
+const drawerWidth = "19%";
+const drawerHeight = "96.4%";
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -27,10 +28,13 @@ const Sidebar = () => {
       variant="permanent"
       sx={{
         width: drawerWidth,
+        height: drawerHeight,
         flexShrink: 0,
         borderRadius: 2,
+        mx: 3,
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
+          height: drawerHeight,
           boxSizing: "border-box",
           backgroundColor: theme.palette.secondary.main,
           color: theme.palette.secondary.contrastText,
@@ -45,7 +49,7 @@ const Sidebar = () => {
         </div>
         <hr className="text-text-secondary pb-5" />
       </div>
-      <List>
+      <List sx={{ px: 3 }}>
         {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
           (text, index) => (
             <ListItem key={text}>
@@ -63,8 +67,8 @@ const Sidebar = () => {
           )
         )}
       </List>
-      <hr className="text-text-secondary py-5" />
-      <List>
+      <hr className="text-text-secondary py-5 mx-5" />
+      <List sx={{ px: 3 }}>
         {["Notification", "Setting", "Login as Admin"].map((text, index) => (
           <ListItem key={text}>
             <ListItemIcon sx={{ color: theme.palette.secondary.contrastText }}>
@@ -76,8 +80,12 @@ const Sidebar = () => {
           </ListItem>
         ))}
       </List>
-      <hr className="text-text-secondary py-5" />
-      <Button variant="contained" color="third">
+      <hr className="text-text-secondary py-5 mx-5" />
+      <Button
+        variant="contained"
+        color="third"
+        sx={{ width: "90%", mx: "auto" }}
+      >
         <LogoutOutlinedIcon />
         <span>Logout</span>
       </Button>
