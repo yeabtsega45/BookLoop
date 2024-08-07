@@ -1,7 +1,7 @@
 function BookStatus() {
   return (
     <div className="bg-primary-contrast">
-      <p>BookStatus</p>
+      <p>Book Status</p>
     </div>
   );
 }
