@@ -19,7 +19,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const drawerWidth = "19%";
-const drawerHeight = "96.4%";
+// const drawerHeight = "96.4%";
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -34,11 +34,11 @@ const Sidebar = () => {
       variant="permanent"
       sx={{
         width: drawerWidth,
-        height: drawerHeight,
+        // height: drawerHeight,
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
-          height: drawerHeight,
+          // height: drawerHeight,
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
@@ -59,7 +59,7 @@ const Sidebar = () => {
                 color: theme.palette.secondary.contrastText,
               }}
             />
-            <img src={group1dash} alt="group1dash" className="w-[30%] pl-4" />
+            <img src={group1dash} alt="group1dash" className="w-[20%] pl-4" />
             <p className="text-primary text-xl pl-3">Book Rent</p>
           </div>
           <hr className="text-text-secondary pb-5" />
