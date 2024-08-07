@@ -19,6 +19,7 @@ export default {
           primary: "var(--color-text-primary)",
           secondary: "var(--color-text-secondary)",
           light: "var(--color-text-light)",
+          contrast: "var(--color-text-contrast)",
         },
       },
     },

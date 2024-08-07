@@ -23,6 +23,18 @@ const theme = createTheme({
     fontFamily: "Roboto, Arial, sans-serif",
   },
   spacing: 8,
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: "#f0f2ff",
+          margin: 0,
+          padding: 0,
+          boxSizing: "border-box",
+        },
+      },
+    },
+  },
 });
 
 export default theme;

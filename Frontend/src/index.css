@@ -19,5 +19,6 @@ body {
   --color-text-primary: #000000de;
   --color-text-secondary: #f8f8f880;
   --color-text-light: #00000080;
+  --color-text-contrast: #a3a3a3;
   --color-primary-background: #f0f2ff;
 }
