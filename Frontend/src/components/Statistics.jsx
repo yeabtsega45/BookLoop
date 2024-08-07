@@ -1,6 +1,6 @@
 function Statistics() {
   return (
-    <div>
+    <div className="w-[27.7%] m-auto bg-primary-contrast">
       <div>
         <h3>This Month Statistics</h3>
         <p>Tue, 14 Nov, 2024, 11.30 AM </p>
