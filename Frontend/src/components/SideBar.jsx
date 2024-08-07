@@ -40,29 +40,82 @@ const Sidebar = () => {
           width: drawerWidth,
           height: drawerHeight,
           boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
           backgroundColor: theme.palette.secondary.main,
-          color: theme.palette.secondary.contrastText,
+          color: theme.palette.secondary.text,
           borderRadius: "12px",
           ml: 1,
           mt: 2,
         },
       }}
     >
-      <div className="flex flex-col px-5">
-        <div className="flex items-center pt-4 pb-10">
-          <MenuIcon />
-          <img src={group1} alt="group1" className="pl-4" />
-          <p className="text-primary text-xl pl-3">Book Rent</p>
+      <div className="flex flex-col">
+        <div className="flex flex-col px-5">
+          <div className="flex items-center pt-4 pb-10">
+            <MenuIcon />
+            <img src={group1} alt="group1" className="pl-4" />
+            <p className="text-primary text-xl pl-3">Book Rent</p>
+          </div>
+          <hr className="text-text-secondary pb-5" />
         </div>
-        <hr className="text-text-secondary pb-5" />
-      </div>
-      <List sx={{ px: 3 }}>
-        {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
-          (text, index) => (
+        <List sx={{ px: 3 }}>
+          {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
+            (text, index) => (
+              <ListItem
+                key={text}
+                disablePadding
+                sx={{
+                  borderRadius: "4px",
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                  backgroundColor:
+                    activeIndex === index
+                      ? theme.palette.primary.main
+                      : "inherit",
+                  color:
+                    activeIndex === index
+                      ? theme.palette.primary.contrastText
+                      : "inherit",
+                  cursor: "pointer",
+                  py: 1,
+                  mb: 1,
+                }}
+                onClick={() => handleListItemClick(index)}
+              >
+                <ListItemIcon
+                  sx={{
+                    color:
+                      activeIndex === index
+                        ? theme.palette.primary.contrastText
+                        : "inherit",
+                    pl: 2,
+                  }}
+                >
+                  {index === 0 ? <SpaceDashboardOutlinedIcon /> : null}
+                  {index === 1 ? <AutoStoriesOutlinedIcon /> : null}
+                  {index === 2 ? <AddBoxOutlinedIcon /> : null}
+                  {index === 3 ? <AddBoxOutlinedIcon /> : null}
+                  {index === 4 ? <AddBoxOutlinedIcon /> : null}
+                </ListItemIcon>
+                <ListItemText
+                  primary={text}
+                  sx={{ fontSize: 14, fontWeight: "regular" }}
+                />
+              </ListItem>
+            )
+          )}
+        </List>
+        <hr className="text-text-secondary py-5 mx-5" />
+        <List sx={{ px: 3 }}>
+          {["Notification", "Setting", "Login as Admin"].map((text, index) => (
             <ListItem
               key={text}
               disablePadding
               sx={{
+                borderRadius: "4px",
                 "&:hover": {
                   backgroundColor: theme.palette.action.hover,
                 },
@@ -70,41 +123,42 @@ const Sidebar = () => {
                   activeIndex === index
                     ? theme.palette.primary.main
                     : "inherit",
+                color:
+                  activeIndex === index
+                    ? theme.palette.primary.contrastText
+                    : "inherit",
+                cursor: "pointer",
+                py: 1,
+                mb: 1,
               }}
               onClick={() => handleListItemClick(index)}
             >
               <ListItemIcon
-                sx={{ color: theme.palette.secondary.contrastText }}
+                sx={{
+                  color:
+                    activeIndex === index
+                      ? theme.palette.primary.contrastText
+                      : "inherit",
+                  pl: 2,
+                }}
               >
-                {index === 0 ? <SpaceDashboardOutlinedIcon /> : null}
-                {index === 1 ? <AutoStoriesOutlinedIcon /> : null}
-                {index === 2 ? <AddBoxOutlinedIcon /> : null}
-                {index === 3 ? <AddBoxOutlinedIcon /> : null}
-                {index === 4 ? <AddBoxOutlinedIcon /> : null}
+                {index === 0 ? <NotificationsOutlinedIcon /> : null}
+                {index === 1 ? <SettingsOutlinedIcon /> : null}
+                {index === 2 ? <AccountCircleOutlinedIcon /> : null}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText
+                primary={text}
+                sx={{ fontSize: 14, fontWeight: "regular" }}
+              />
             </ListItem>
-          )
-        )}
-      </List>
-      <hr className="text-text-secondary py-5 mx-5" />
-      <List sx={{ px: 3 }}>
-        {["Notification", "Setting", "Login as Admin"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemIcon sx={{ color: theme.palette.secondary.contrastText }}>
-              {index === 0 ? <NotificationsOutlinedIcon /> : null}
-              {index === 1 ? <SettingsOutlinedIcon /> : null}
-              {index === 2 ? <AccountCircleOutlinedIcon /> : null}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <hr className="text-text-secondary py-5 mx-5" />
+          ))}
+        </List>
+        <hr className="text-text-secondary py-5 mx-5" />
+      </div>
       <Button
         variant="contained"
         color="third"
-        sx={{ width: "90%", mx: "auto" }}
+        sx={{ width: "90%", mx: "auto", mb: 2 }}
       >
         <LogoutOutlinedIcon />
         <span>Logout</span>
