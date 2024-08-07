@@ -10,7 +10,7 @@ const palette = ["blue", "green", "red"];
 
 function Statistics() {
   return (
-    <div className="w-[27.7%] h-full m-auto bg-primary-contrast px-4">
+    <div className="w-[27.7%] h-full m-auto bg-primary-contrast px-4 pb-8">
       <div className="pt-8 pb-9">
         <h3 className="text-xl font-medium text-[#525256]">
           This Month Statistics
@@ -42,7 +42,7 @@ function Statistics() {
           <p className="text-lg">Available Books</p>
           <p className="bg-[#F4F5F7] text-xs p-1 rounded-sm mb-3">Today</p>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mb-6">
           <PieChart
             series={[
               {
@@ -62,12 +62,17 @@ function Statistics() {
           <div className="w-full flex px-6">
             <ul className="list-none p-0">
               {chartData.map((item, index) => (
-                <li key={index} className="flex items-center mb-1">
-                  <span
-                    className="w-4 h-4 mr-2 rounded-full"
-                    style={{ backgroundColor: palette[index] }}
-                  ></span>
-                  <p className="text-[#1A1919]">{item.label}</p>
+                <li
+                  key={index}
+                  className="flex justify-between items-center w-full mb-1"
+                >
+                  <div className="flex items-center pr-20">
+                    <span
+                      className="w-4 h-4 mr-2 rounded-full"
+                      style={{ backgroundColor: palette[index] }}
+                    ></span>
+                    <p className="text-[#1A1919]">{item.label}</p>
+                  </div>
                   <p className="text-[#1A1919]">{item.value}</p>
                 </li>
               ))}
