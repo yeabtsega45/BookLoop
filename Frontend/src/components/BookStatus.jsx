@@ -53,6 +53,37 @@ const data = [
 ];
 
 function BookStatus() {
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "name.firstName", //access nested data with dot notation
+        header: "First Name",
+        size: 150,
+      },
+      {
+        accessorKey: "name.lastName",
+        header: "Last Name",
+        size: 150,
+      },
+      {
+        accessorKey: "address", //normal accessorKey
+        header: "Address",
+        size: 200,
+      },
+      {
+        accessorKey: "city",
+        header: "City",
+        size: 150,
+      },
+      {
+        accessorKey: "state",
+        header: "State",
+        size: 150,
+      },
+    ],
+    []
+  );
+
   return (
     <div className="bg-primary-contrast w-full h-[58.7%] m-auto">
       <p>Book Status</p>
