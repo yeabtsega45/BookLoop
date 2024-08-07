@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import group1 from "@/assets/Group 1.png";
+import group1dash from "@/assets/Group 1@2x.png";
 import SpaceDashboardOutlinedIcon from "@mui/icons-material/SpaceDashboardOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
@@ -54,8 +54,12 @@ const Sidebar = () => {
       <div className="flex flex-col">
         <div className="flex flex-col px-5">
           <div className="flex items-center pt-4 pb-10">
-            <MenuIcon />
-            <img src={group1} alt="group1" className="pl-4" />
+            <MenuIcon
+              sx={{
+                color: theme.palette.secondary.contrastText,
+              }}
+            />
+            <img src={group1dash} alt="group1dash" className="w-[30%] pl-4" />
             <p className="text-primary text-xl pl-3">Book Rent</p>
           </div>
           <hr className="text-text-secondary pb-5" />
@@ -91,6 +95,7 @@ const Sidebar = () => {
                       activeIndex === index
                         ? theme.palette.primary.contrastText
                         : "inherit",
+                    fontSize: 24,
                     pl: 2,
                   }}
                 >
