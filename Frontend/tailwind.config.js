@@ -8,6 +8,7 @@ export default {
           contrast: "var(--color-primary-contrast)",
           DEFAULT: "var(--color-primary)",
           dark: "var(--color-primary-dark)",
+          background: "var(--color-primary-background)",
         },
         secondary: {
           light: "var(--color-secondary-light)",
@@ -17,6 +18,7 @@ export default {
         text: {
           primary: "var(--color-text-primary)",
           secondary: "var(--color-text-secondary)",
+          light: "var(--color-text-light)",
         },
       },
     },
