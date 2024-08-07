@@ -7,6 +7,7 @@ function OwnerDashboard() {
       <Sidebar />
       <div className="flex flex-col w-full h-full m-auto">
         <Header />
+        <div></div>
       </div>
     </div>
   );
