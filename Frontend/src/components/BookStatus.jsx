@@ -3,7 +3,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Radio, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PropTypes from "prop-types";
@@ -29,6 +29,27 @@ const BookStatus = () => {
       bookNo: 6465,
       bookName: "Derto Gada",
       status: "Rented",
+      price: 35,
+    },
+    {
+      no: 4,
+      bookNo: 6465,
+      bookName: "Fikr Eske Mekabr",
+      status: "Free",
+      price: 25,
+    },
+    {
+      no: 5,
+      bookNo: 6465,
+      bookName: "Fikr Eske Mekabr",
+      status: "Free",
+      price: 30,
+    },
+    {
+      no: 6,
+      bookNo: 6465,
+      bookName: "Fikr Eske Mekabr",
+      status: "Free",
       price: 35,
     },
   ]);
@@ -61,9 +82,15 @@ const BookStatus = () => {
       {
         accessorKey: "status",
         header: "Status",
-        muiTableBodyCellEditTextFieldProps: {
-          variant: "standard",
-        },
+        Cell: ({ row }) => (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Radio
+              color={row.original.status === "Rented" ? "error" : "primary"}
+              checked={true}
+            />
+            <Typography>{row.original.status}</Typography>
+          </Box>
+        ),
       },
       {
         accessorKey: "price",
@@ -129,6 +156,12 @@ BookStatus.propTypes = {
       price: PropTypes.number.isRequired,
     })
   ),
+  row: PropTypes.object.isRequired,
+  "row.index": PropTypes.number.isRequired,
+  "row.original": PropTypes.object.isRequired,
+  "row.original.status": PropTypes.string.isRequired,
+  table: PropTypes.object.isRequired,
+  "table.setEditingRow": PropTypes.func.isRequired,
 };
 
 export default BookStatus;
