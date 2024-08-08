@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
-import { MaterialReactTable } from "material-react-table";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 import { Box, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -72,30 +75,25 @@ const BookStatus = () => {
     exitEditingMode();
   };
 
-  return (
-    <MaterialReactTable
-      columns={columns}
-      data={data}
-      editDisplayMode="modal"
-      onEditingRowSave={handleSaveRow}
-    />
-  );
+  const table = useMaterialReactTable({
+    columns, // Pass the columns array directly
+    data, // Pass the data array directly
+    editDisplayMode: "modal",
+    onEditingRowSave: handleSaveRow, // Pass the function directly
+    muiTableHeadCellProps: {
+      sx: {
+        // pl: "28px",
+      },
+    },
+  });
+
+  return <MaterialReactTable table={table} />;
 };
 
-const tablePropType = PropTypes.shape({
-  setEditingRow: PropTypes.func.isRequired,
-});
-
-const rowPropType = PropTypes.shape({
-  index: PropTypes.number.isRequired,
-  original: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
-  }).isRequired,
-});
+// Remove the tablePropType and rowPropType as they're not needed
 
 BookStatus.propTypes = {
+  // Remove the table and row prop types
   data: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -103,8 +101,6 @@ BookStatus.propTypes = {
       age: PropTypes.number.isRequired,
     })
   ),
-  table: tablePropType.isRequired,
-  row: rowPropType.isRequired,
 };
 
 export default BookStatus;
