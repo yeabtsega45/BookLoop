@@ -57,10 +57,10 @@ const BookStatus = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "no",
-        header: "No",
+        accessorKey: "no", // value of data
+        header: "No", // table header display
         muiTableBodyCellEditTextFieldProps: {
-          type: "number",
+          type: "number", // data type
           variant: "standard",
         },
       },
@@ -82,6 +82,7 @@ const BookStatus = () => {
       {
         accessorKey: "status",
         header: "Status",
+        // Display Radio button on status column
         Cell: ({ row }) => (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Radio
@@ -103,6 +104,7 @@ const BookStatus = () => {
       {
         id: "actions",
         header: "Actions",
+        // Display edit & delete icons on actions column
         Cell: ({ row, table }) => (
           <Box>
             <IconButton
@@ -128,6 +130,7 @@ const BookStatus = () => {
     []
   );
 
+  // Function to set the state to edited data
   const handleSaveRow = ({ exitEditingMode, row, values }) => {
     setData((prev) =>
       prev.map((item, index) => (index === row.index ? values : item))
@@ -135,12 +138,28 @@ const BookStatus = () => {
     exitEditingMode();
   };
 
+  // Title displayed on the top of the table
+  const renderTopToolbarCustomActions = () => {
+    return (
+      <Typography
+        variant="h6"
+        style={{ padding: "12px 28px", fontWeight: 600 }}
+      >
+        Live Book Status
+      </Typography>
+    );
+  };
+
   const table = useMaterialReactTable({
     columns,
     data,
-    editDisplayMode: "modal",
-    onEditingRowSave: handleSaveRow,
-    muiTableProps: { sx: { px: "28px" } },
+    editDisplayMode: "modal", // modal display
+    onEditingRowSave: handleSaveRow, // editing modal onClick
+    muiTableProps: { sx: { px: "28px" } }, // Table styling
+    renderTopToolbarCustomActions, // Add title on top of the table
+    positionToolbarAlertBanner: "bottom", // Add title on top of the table
+    enableColumnActions: false, // Remove header options
+    enableSorting: false, // Remove header options
   });
 
   return <MaterialReactTable table={table} />;
