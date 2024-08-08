@@ -19,7 +19,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const drawerWidth = "19%";
-// const drawerHeight = "96.4%";
+const drawerHeight = "96.4%";
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -34,11 +34,11 @@ const Sidebar = () => {
       variant="permanent"
       sx={{
         width: drawerWidth,
-        // height: drawerHeight,
+        height: drawerHeight,
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
-          // height: drawerHeight,
+          height: drawerHeight,
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
@@ -46,8 +46,8 @@ const Sidebar = () => {
           backgroundColor: theme.palette.secondary.main,
           color: theme.palette.secondary.text,
           borderRadius: "12px",
-          ml: 1,
-          mt: 2,
+          // ml: 1,
+          // mt: 2,
         },
       }}
     >
@@ -163,7 +163,7 @@ const Sidebar = () => {
       <Button
         variant="contained"
         color="third"
-        sx={{ width: "90%", mx: "auto", mb: 2 }}
+        sx={{ width: "90%", mx: "auto", mb: 5 }}
       >
         <LogoutOutlinedIcon />
         <span>Logout</span>

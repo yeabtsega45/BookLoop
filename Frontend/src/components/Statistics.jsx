@@ -10,7 +10,7 @@ const palette = ["blue", "green", "red"];
 
 function Statistics() {
   return (
-    <div className="w-[27.7%] h-full m-auto bg-primary-contrast px-4 pb-8">
+    <div className="w-[27.7%] h-full m-auto bg-primary-contrast px-4 pb-24">
       <div className="pt-8 pb-9">
         <h3 className="text-xl font-medium text-[#525256]">
           This Month Statistics

@@ -6,13 +6,13 @@ import EarningSummary from "@/components/EarningSummary";
 
 function OwnerDashboard() {
   return (
-    <div className="w-full h-full flex m-auto bg-primary-background">
+    <div className="w-full h-full flex justify-center items-center m-auto bg-primary-background">
       <Sidebar />
-      <div className="flex flex-col w-[77.8%] h-[96.4%] m-auto">
+      <div className="flex flex-col justify-center items-center w-[77.8%] h-[96.4%] m-auto">
         <Header />
-        <div className="flex w-full h-[91.1%] m-auto">
+        <div className="flex justify-center items-center w-full h-[91.1%] m-auto">
           <Statistics />
-          <div className="flex flex-col w-[74%] h-[94.9%] m-auto">
+          <div className="flex flex-col justify-center items-center w-[74%] h-[94.9%] m-auto">
             <BookStatus />
             <EarningSummary />
           </div>
