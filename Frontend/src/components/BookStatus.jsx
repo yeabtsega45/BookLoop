@@ -1,94 +1,113 @@
-import { useMemo } from "react";
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from "material-react-table";
+import { useMemo, useState } from "react";
+import { MaterialReactTable } from "material-react-table";
+import { Box, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PropTypes from "prop-types";
 
-const data = [
-  {
-    name: {
-      firstName: "John",
-      lastName: "Doe",
-    },
-    address: "261 Erdman Ford",
-    city: "East Daphne",
-    state: "Kentucky",
-  },
-  {
-    name: {
-      firstName: "Jane",
-      lastName: "Doe",
-    },
-    address: "769 Dominic Grove",
-    city: "Columbus",
-    state: "Ohio",
-  },
-  {
-    name: {
-      firstName: "Joe",
-      lastName: "Doe",
-    },
-    address: "566 Brakus Inlet",
-    city: "South Linda",
-    state: "West Virginia",
-  },
-  {
-    name: {
-      firstName: "Kevin",
-      lastName: "Vandy",
-    },
-    address: "722 Emie Stream",
-    city: "Lincoln",
-    state: "Nebraska",
-  },
-  {
-    name: {
-      firstName: "Joshua",
-      lastName: "Rolluffs",
-    },
-    address: "32188 Larkin Turnpike",
-    city: "Charleston",
-    state: "South Carolina",
-  },
-];
+const BookStatus = () => {
+  const [data, setData] = useState([
+    { name: "John", email: "john@example.com", age: 25 },
+    { name: "Jane", email: "jane@example.com", age: 30 },
+    { name: "Bob", email: "bob@example.com", age: 35 },
+  ]);
 
-function BookStatus() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "name.firstName", //access nested data with dot notation
-        header: "First Name",
-        size: 150,
+        accessorKey: "name",
+        header: "Name",
+        muiTableBodyCellEditTextFieldProps: {
+          variant: "standard",
+        },
       },
       {
-        accessorKey: "name.lastName",
-        header: "Last Name",
-        size: 150,
+        accessorKey: "email",
+        header: "Email",
+        muiTableBodyCellEditTextFieldProps: {
+          type: "email",
+          variant: "standard",
+        },
       },
       {
-        accessorKey: "address", //normal accessorKey
-        header: "Address",
-        size: 200,
+        accessorKey: "age",
+        header: "Age",
+        muiTableBodyCellEditTextFieldProps: {
+          type: "number",
+          variant: "standard",
+        },
       },
       {
-        accessorKey: "city",
-        header: "City",
-        size: 150,
-      },
-      {
-        accessorKey: "state",
-        header: "State",
-        size: 150,
+        id: "actions",
+        header: "Actions",
+        Edit: () => null, //don't render anything in the editing modal for this column
+        Cell: ({ row, table }) => (
+          <Box>
+            <IconButton
+              onClick={() => {
+                table.setEditingRow(row);
+              }}
+            >
+              <EditIcon sx={{ color: "black" }} />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setData((prev) =>
+                  prev.filter((_, index) => index !== row.index)
+                );
+              }}
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+          </Box>
+        ),
       },
     ],
     []
   );
 
+  const handleEditingRowSave = (updatedRowData, rowIndex) => {
+    setData((prevData) => {
+      const newData = [...prevData];
+      newData[rowIndex] = updatedRowData;
+      return newData;
+    });
+  };
+
   return (
-    <div className="bg-primary-contrast w-full h-[58.7%] m-auto">
-      <p>Book Status</p>
-    </div>
+    <MaterialReactTable
+      columns={columns}
+      data={data}
+      editDisplayMode="modal"
+      onEditingRowSave={handleEditingRowSave}
+      editingMode="cell" // Set editing mode to 'cell' to customize editing
+    />
   );
-}
+};
+
+const tablePropType = PropTypes.shape({
+  setEditingRow: PropTypes.func.isRequired,
+});
+
+const rowPropType = PropTypes.shape({
+  index: PropTypes.number.isRequired,
+  original: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
+  }).isRequired,
+});
+
+BookStatus.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      age: PropTypes.number.isRequired,
+    })
+  ),
+  table: tablePropType.isRequired,
+  row: rowPropType.isRequired,
+};
 
 export default BookStatus;
