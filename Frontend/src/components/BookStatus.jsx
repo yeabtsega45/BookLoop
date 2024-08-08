@@ -155,7 +155,7 @@ const BookStatus = () => {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: { px: "28px" } }, // Table styling
+    muiTableProps: { sx: { px: "28px", width: "744px" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
