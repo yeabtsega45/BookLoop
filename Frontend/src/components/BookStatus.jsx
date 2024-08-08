@@ -10,31 +10,64 @@ import PropTypes from "prop-types";
 
 const BookStatus = () => {
   const [data, setData] = useState([
-    { name: "John", email: "john@example.com", age: 25 },
-    { name: "Jane", email: "jane@example.com", age: 30 },
-    { name: "Bob", email: "bob@example.com", age: 35 },
+    {
+      no: 1,
+      bookNo: 6465,
+      bookName: "Derto Gada",
+      status: "Rented",
+      price: 25,
+    },
+    {
+      no: 2,
+      bookNo: 6465,
+      bookName: "Derto Gada",
+      status: "Rented",
+      price: 30,
+    },
+    {
+      no: 3,
+      bookNo: 6465,
+      bookName: "Derto Gada",
+      status: "Rented",
+      price: 35,
+    },
   ]);
 
   const columns = useMemo(
     () => [
       {
-        accessorKey: "name",
-        header: "Name",
+        accessorKey: "no",
+        header: "No",
+        muiTableBodyCellEditTextFieldProps: {
+          type: "number",
+          variant: "standard",
+        },
+      },
+      {
+        accessorKey: "bookNo",
+        header: "Book no",
+        muiTableBodyCellEditTextFieldProps: {
+          type: "number",
+          variant: "standard",
+        },
+      },
+      {
+        accessorKey: "bookName",
+        header: "Book Name",
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
       },
       {
-        accessorKey: "email",
-        header: "Email",
+        accessorKey: "status",
+        header: "Status",
         muiTableBodyCellEditTextFieldProps: {
-          type: "email",
           variant: "standard",
         },
       },
       {
-        accessorKey: "age",
-        header: "Age",
+        accessorKey: "price",
+        header: "Price",
         muiTableBodyCellEditTextFieldProps: {
           type: "number",
           variant: "standard",
@@ -76,29 +109,24 @@ const BookStatus = () => {
   };
 
   const table = useMaterialReactTable({
-    columns, // Pass the columns array directly
-    data, // Pass the data array directly
+    columns,
+    data,
     editDisplayMode: "modal",
-    onEditingRowSave: handleSaveRow, // Pass the function directly
-    muiTableHeadCellProps: {
-      sx: {
-        // pl: "28px",
-      },
-    },
+    onEditingRowSave: handleSaveRow,
+    muiTableProps: { sx: { px: "28px" } },
   });
 
   return <MaterialReactTable table={table} />;
 };
 
-// Remove the tablePropType and rowPropType as they're not needed
-
 BookStatus.propTypes = {
-  // Remove the table and row prop types
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      age: PropTypes.number.isRequired,
+      no: PropTypes.number.isRequired,
+      bookNo: PropTypes.number.isRequired,
+      bookName: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
     })
   ),
 };
