@@ -40,7 +40,6 @@ const BookStatus = () => {
       {
         id: "actions",
         header: "Actions",
-        Edit: () => null, //don't render anything in the editing modal for this column
         Cell: ({ row, table }) => (
           <Box>
             <IconButton
@@ -66,12 +65,11 @@ const BookStatus = () => {
     []
   );
 
-  const handleEditingRowSave = (updatedRowData, rowIndex) => {
-    setData((prevData) => {
-      const newData = [...prevData];
-      newData[rowIndex] = updatedRowData;
-      return newData;
-    });
+  const handleSaveRow = ({ exitEditingMode, row, values }) => {
+    setData((prev) =>
+      prev.map((item, index) => (index === row.index ? values : item))
+    );
+    exitEditingMode();
   };
 
   return (
@@ -79,8 +77,7 @@ const BookStatus = () => {
       columns={columns}
       data={data}
       editDisplayMode="modal"
-      onEditingRowSave={handleEditingRowSave}
-      editingMode="cell" // Set editing mode to 'cell' to customize editing
+      onEditingRowSave={handleSaveRow}
     />
   );
 };
