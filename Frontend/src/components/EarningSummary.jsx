@@ -11,8 +11,15 @@ const yLabels = ["0.0 Birr", "100 Birr", "200 Birr", "300 Birr"];
 
 function EarningSummary() {
   return (
-    <div className="bg-primary-contrast w-full h-[38.9%] m-auto flex flex-col justify-center items-center">
-      <p>Earning Summary</p>
+    <div className="bg-primary-contrast w-full h-[38.9%] m-auto flex flex-col justify-center items-center rounded-2xl">
+      <div className="flex justify-between">
+        <div className="flex">
+          <h3 className="font-semibold pr-8">Earning Summary</h3>
+          <select className="text-[#656575] text-xs p-1 outline-none">
+            <option>Mar 2022 - Oct 2024</option>
+          </select>
+        </div>
+      </div>
       <ChartContainer
         width={500}
         height={300}
