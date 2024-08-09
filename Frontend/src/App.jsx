@@ -8,9 +8,9 @@ import BookUpload from "@/pages/owner/BookUpload";
 function App() {
   return (
     <>
-      <div className="flex">
+      <div className="w-full h-full flex justify-center items-center m-auto bg-primary-background">
         <SideBar />
-        <div className="w-full h-full flex-1 justify-center items-center m-auto bg-primary-background">
+        <div className="flex-1">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<OwnerDashboard />} />
