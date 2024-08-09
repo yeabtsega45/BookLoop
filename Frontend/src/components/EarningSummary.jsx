@@ -7,9 +7,10 @@ import {
 } from "@mui/x-charts/LineChart";
 import { ChartsXAxis } from "@mui/x-charts/ChartsXAxis";
 import { ChartsYAxis } from "@mui/x-charts/ChartsYAxis";
+import { axisClasses } from "@mui/x-charts";
 
-const line1 = [275, 155, 225, 155, 215, 165];
-const line2 = [125, 179, 155, 190, 155, 230];
+const line1 = [275, 130, 250, 130, 240, 140];
+const line2 = [125, 205, 130, 165, 130, 255];
 const xLabels = ["May", "Jun", "Jul", "Aug", "Sep", "Oct"];
 const yLabels = ["0.0 Birr", "100 Birr", "200 Birr", "300 Birr"];
 
@@ -37,7 +38,7 @@ function EarningSummary() {
         </div>
       </div>
       <ChartContainer
-        width={800}
+        width={1000}
         height={300}
         series={[
           { data: line1, type: "line", color: "#006AFF" },
@@ -49,10 +50,10 @@ function EarningSummary() {
           },
         ]}
         xAxis={[{ scaleType: "point", data: xLabels }]}
-        yAxis={[{ scaleType: "linear", data: yLabels, min: 0, max: 300 }]}
+        yAxis={[{ data: yLabels, min: 0, max: 300 }]}
         sx={{
           [`.${lineElementClasses.root}, .${markElementClasses.root}`]: {
-            strokeWidth: 1,
+            strokeWidth: 2,
           },
           ".MuiLineElement-series-line2": {
             strokeDasharray: "5 5",
@@ -63,6 +64,11 @@ function EarningSummary() {
             },
           [`& .${markElementClasses.highlighted}`]: {
             stroke: "none",
+          },
+          [`.${axisClasses.root}`]: {
+            [`.${axisClasses.tickLabel}`]: {
+              fill: "#525256",
+            },
           },
         }}
       >
@@ -76,12 +82,7 @@ function EarningSummary() {
           />
         ))}
         <ChartsXAxis disableLine disableTicks />
-        <ChartsYAxis
-          disableLine
-          disableTicks
-          tickNumber={4}
-          tickFormat={(value) => `${value} Birr`}
-        />
+        <ChartsYAxis disableLine disableTicks />
       </ChartContainer>
     </div>
   );
