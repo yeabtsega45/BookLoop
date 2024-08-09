@@ -20,11 +20,11 @@ function BookUpload() {
     <div className="flex flex-col justify-between items-center w-[77.8%] h-[95.8%] m-auto pt-4">
       <Header role="Owner" page="Book Upload" />
       <div className="bg-primary-contrast flex flex-col justify-center items-center w-full h-[91.1%] m-auto mt-5 rounded-2xl">
-        <h1 className="text-[#525256] text-[22px] font-medium">
+        <h1 className="text-[#525256] text-[22px] font-medium mt-12 mb-7">
           Upload new Book
         </h1>
-        <div className="flex">
-          <select className="text-[#656575] px-4 py-3 border border-[#DEDEDE] rounded-lg">
+        <div className="flex justify-between w-[55%] mt-6 mb-5">
+          <select className="w-[320px] text-[#656575] px-4 py-3 border border-[#DEDEDE] rounded-lg">
             <option className="">Book Quantity</option>
             <option className="">1</option>
             <option className="">2</option>
@@ -33,18 +33,30 @@ function BookUpload() {
           <input
             type="text"
             placeholder="Rent price for 2 weeks"
-            className="px-2 py-3 border border-[#DEDEDE] rounded-lg"
+            className="w-[320px] px-2 py-3 border border-[#DEDEDE] rounded-lg"
           />
         </div>
         <Button
           component="label"
           role={undefined}
-          variant="contained"
+          variant="text"
           tabIndex={-1}
           startIcon={<FileUploadOutlinedIcon />}
+          sx={{
+            mb: "30px",
+            fontSize: "16px",
+            fontWeight: 500,
+            textTransform: "none",
+          }}
         >
           Upload Book Cover
           <VisuallyHiddenInput type="file" />
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ py: 3, px: 16, borderRadius: "20px" }}
+        >
+          Submit
         </Button>
       </div>
     </div>
