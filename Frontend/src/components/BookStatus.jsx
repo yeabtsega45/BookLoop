@@ -155,14 +155,18 @@ const BookStatus = () => {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: { px: "28px", width: "744px" } }, // Table styling
+    muiTableProps: { sx: { width: "93%", height: "90%" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
     enableSorting: false, // Remove header options
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <div className="bg-primary-contrast flex justify-center items-center w-full h-full m-auto rounded-2xl">
+      <MaterialReactTable table={table} />
+    </div>
+  );
 };
 
 BookStatus.propTypes = {

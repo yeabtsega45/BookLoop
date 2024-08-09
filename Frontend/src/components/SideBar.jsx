@@ -46,8 +46,8 @@ const Sidebar = () => {
           backgroundColor: theme.palette.secondary.main,
           color: theme.palette.secondary.text,
           borderRadius: "12px",
-          // ml: 1,
-          // mt: 2,
+          ml: 1,
+          mt: 2,
         },
       }}
     >
