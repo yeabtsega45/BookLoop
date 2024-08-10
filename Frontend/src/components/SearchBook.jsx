@@ -5,23 +5,31 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/system";
+import Menu from "@mui/material/Menu";
 
 const StyledTextField = styled(TextField)({
   margin: "10px 15px",
 });
 
 export default function SearchBook() {
-  const [value, selectValue] = React.useState("");
+  const [value, setValue] = React.useState("");
   const [searchTerm, setSearchTerm] = React.useState("");
   const [options, setOptions] = React.useState([10, 20, 30]);
-  console.log(setOptions);
+  const [open, setOpen] = React.useState(false); // Control dropdown state
 
   const handleChange = (event) => {
-    selectValue(event.target.value);
+    setValue(event.target.value);
+    setSearchTerm(""); // Clear search term on selection
+    setOpen(false); // Close dropdown after selection
   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setOpen(true); // Keep dropdown open during search
+  };
+
+  const handleClick = () => {
+    setOpen(true); // Open dropdown when clicking inside the input field
   };
 
   const filteredOptions = options.filter((option) =>
@@ -38,13 +46,18 @@ export default function SearchBook() {
         label="Label"
         onChange={handleChange}
         displayEmpty
+        open={open} // Control whether the dropdown is open
+        onClose={() => setOpen(false)} // Close the dropdown
+        onOpen={() => setOpen(true)} // Open the dropdown
+        MenuProps={{ disableAutoFocusItem: true }} // Prevent auto focus on items
         renderValue={value !== "" ? undefined : () => "Select an option"}
       >
-        <MenuItem disabled>
+        <MenuItem disableRipple>
           <StyledTextField
             placeholder="Search..."
             variant="standard"
             onChange={handleSearch}
+            onClick={handleClick} // Keep dropdown open when clicking inside input
             value={searchTerm}
             fullWidth
             autoFocus
