@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import SearchBook from "../../components/SearchBook";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -23,6 +24,7 @@ function BookUpload() {
         <h1 className="text-[#525256] text-[22px] font-medium mt-12 mb-7">
           Upload new Book
         </h1>
+        <SearchBook />
         <div className="flex justify-between w-[55%] mt-6 mb-5">
           <select className="w-[320px] text-[#656575] px-4 py-3 border border-[#DEDEDE] rounded-lg">
             <option className="">Book Quantity</option>
