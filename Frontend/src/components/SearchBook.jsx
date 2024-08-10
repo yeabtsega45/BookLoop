@@ -1,78 +1,77 @@
-import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import ListSubheader from "@mui/material/ListSubheader";
 import { styled } from "@mui/system";
-import Menu from "@mui/material/Menu";
 
-const StyledTextField = styled(TextField)({
-  margin: "10px 15px",
+const StyledAutocomplete = styled(Autocomplete)({
+  "& .MuiOutlinedInput-root": {
+    paddingTop: "8px",
+    paddingBottom: "8px",
+  },
 });
 
 export default function SearchBook() {
-  const [value, setValue] = React.useState("");
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [options, setOptions] = React.useState([10, 20, 30]);
-  const [open, setOpen] = React.useState(false); // Control dropdown state
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [books, setBooks] = useState([
+    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
+    { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee" },
+    { id: 3, title: "1984", author: "George Orwell" },
+  ]);
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-    setSearchTerm(""); // Clear search term on selection
-    setOpen(false); // Close dropdown after selection
+  const handleAddBook = () => {
+    const newBook = {
+      id: books.length + 1,
+      title: inputValue,
+      author: "Unknown",
+    };
+    setBooks([...books, newBook]);
+    setInputValue("");
   };
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    setOpen(true); // Keep dropdown open during search
-  };
-
-  const handleClick = () => {
-    setOpen(true); // Open dropdown when clicking inside the input field
-  };
-
-  const filteredOptions = options.filter((option) =>
-    option.toString().toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
-    <FormControl size="medium" variant="filled" fullWidth>
-      <InputLabel id="select-label">Label</InputLabel>
-      <Select
-        labelId="select-label"
-        id="select-demo"
+    <Box width="100%" maxWidth={360}>
+      <StyledAutocomplete
         value={value}
-        label="Label"
-        onChange={handleChange}
-        displayEmpty
-        open={open} // Control whether the dropdown is open
-        onClose={() => setOpen(false)} // Close the dropdown
-        onOpen={() => setOpen(true)} // Open the dropdown
-        MenuProps={{ disableAutoFocusItem: true }} // Prevent auto focus on items
-        renderValue={value !== "" ? undefined : () => "Select an option"}
-      >
-        <MenuItem disableRipple>
-          <StyledTextField
-            placeholder="Search..."
-            variant="standard"
-            onChange={handleSearch}
-            onClick={handleClick} // Keep dropdown open when clicking inside input
-            value={searchTerm}
-            fullWidth
-            autoFocus
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        inputValue={inputValue}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue);
+        }}
+        id="select-demo"
+        options={books}
+        getOptionLabel={(option) => option.title} // How titles are read for display
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search Books"
+            placeholder="Type or select a book"
+            variant="outlined"
+            sx={{ backgroundColor: "#0000000F" }}
           />
-        </MenuItem>
-        {filteredOptions.length > 0 ? (
-          filteredOptions.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option === 10 ? "Ten" : option === 20 ? "Twenty" : "Thirty"}
-            </MenuItem>
-          ))
-        ) : (
-          <MenuItem disabled>No options found</MenuItem>
         )}
-      </Select>
-    </FormControl>
+        ListboxProps={{
+          renderFooter: () => (
+            <ListSubheader component="div" style={{ textAlign: "center" }}>
+              <Button onClick={handleAddBook} color="primary" size="small">
+                Add {inputValue}
+              </Button>
+            </ListSubheader>
+          ),
+        }}
+        renderOption={(props, option) => (
+          <li {...props} key={option.id}>
+            {option.title} - {option.author}
+          </li>
+        )}
+        freeSolo
+        fullWidth
+      />
+    </Box>
   );
 }
