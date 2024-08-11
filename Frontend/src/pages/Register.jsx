@@ -26,9 +26,10 @@ function Register() {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         navigate("/");
+        console.log(res.data);
       })
       .catch((err) => {
-        setError("Wrong password");
+        setError(err.message);
         console.log(err);
       });
   };
