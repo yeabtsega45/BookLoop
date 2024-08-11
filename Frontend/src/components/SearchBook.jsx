@@ -3,8 +3,9 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ListSubheader from "@mui/material/ListSubheader";
-import { styled } from "@mui/system";
+import Paper from "@mui/material/Paper";
+import { styled, useTheme } from "@mui/system";
+import PropTypes from "prop-types";
 
 const StyledAutocomplete = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -13,13 +14,40 @@ const StyledAutocomplete = styled(Autocomplete)({
   },
 });
 
-export default function SearchBook() {
+const CustomPaper = (props) => {
+  // Use MUI useTheme hook to access the theme for consistent styling
+  const theme = useTheme();
+
+  return (
+    <Paper elevation={8} {...props}>
+      {props.children}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          padding: theme.spacing(1),
+        }}
+      >
+        <Button color="primary" variant="text" onClick={props.handleAdd}>
+          Add {props.inputValue}
+        </Button>
+      </Box>
+    </Paper>
+  );
+};
+
+CustomPaper.propTypes = {
+  children: PropTypes.node,
+  handleAdd: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired,
+};
+
+function SearchBook() {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [books, setBooks] = useState([
-    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
-    { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee" },
-    { id: 3, title: "1984", author: "George Orwell" },
+    { id: 1, title: "Book 1", author: "F. Scott Fitzgerald" },
+    { id: 2, title: "Book 2", author: "Harper Lee" },
   ]);
 
   const handleAddBook = () => {
@@ -29,7 +57,7 @@ export default function SearchBook() {
       author: "Unknown",
     };
     setBooks([...books, newBook]);
-    setInputValue("");
+    setInputValue(""); // Optionally clear input after adding
   };
 
   return (
@@ -45,33 +73,27 @@ export default function SearchBook() {
         }}
         id="select-demo"
         options={books}
-        getOptionLabel={(option) => option.title} // How titles are read for display
+        getOptionLabel={(option) => option.title} // Specify how to read the title for display
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search Books"
-            placeholder="Type or select a book"
+            label="Search book by name or Author"
+            placeholder="Search..."
             variant="outlined"
             sx={{ backgroundColor: "#0000000F" }}
           />
         )}
-        ListboxProps={{
-          renderFooter: () => (
-            <ListSubheader component="div" style={{ textAlign: "center" }}>
-              <Button onClick={handleAddBook} color="primary" size="small">
-                Add {inputValue}
-              </Button>
-            </ListSubheader>
-          ),
-        }}
-        renderOption={(props, option) => (
-          <li {...props} key={option.id}>
-            {option.title} - {option.author}
-          </li>
+        PaperComponent={(props) => (
+          <CustomPaper
+            {...props}
+            inputValue={inputValue}
+            handleAdd={handleAddBook}
+          />
         )}
-        freeSolo
         fullWidth
       />
     </Box>
   );
 }
+
+export default SearchBook;
