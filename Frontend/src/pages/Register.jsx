@@ -16,7 +16,7 @@ function Register() {
           <img src={group1} alt="group1" />
           <h2 className="text-3xl pl-2">Book Rent</h2>
         </div>
-        <h3 className="text-2xl pb-2">Register</h3>
+        <h3 className="text-2xl pb-2">Signup as Owner</h3>
         <hr className="pb-6" />
         <TextField
           id="outlined-basic"
@@ -28,22 +28,37 @@ function Register() {
           id="outlined-password-input"
           label="Password"
           type="password"
-          autoComplete="current-password"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          id="outlined-password-input"
+          label="Confirm Password"
+          type="password"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Location"
+          variant="outlined"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Phone Number"
+          variant="outlined"
           sx={{ mb: 2 }}
         />
         <FormControlLabel
           control={<Checkbox />}
-          label="Remember me"
+          label="I accept the Terms and Conditions"
           sx={{ mb: 2 }}
         />
         <Button variant="contained" color="primary" sx={{ mb: 2 }}>
-          Register
+          Sign up
         </Button>
         <p className="text-center">
-          Have not an account?
-          <span className="text-primary pl-1 hover:cursor-pointer">
-            Sign up
-          </span>
+          Already have an account
+          <span className="text-primary pl-1 hover:cursor-pointer">Login</span>
         </p>
       </div>
     </div>

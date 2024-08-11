@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const dotenv = require("dotenv").config();
 const connectDb = require("./config/connectDb");
 const authController = require("./controllers/authController");
 const bookController = require("./controllers/bookController");
