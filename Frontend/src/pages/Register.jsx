@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [data, setData] = useState({
@@ -47,7 +47,7 @@ function Register() {
           <img src={group1} alt="group1" />
           <h2 className="text-3xl pl-2">Book Rent</h2>
         </div>
-        <div className="text-red-600 font-semibold">{error}</div>
+        <p className="text-red-600 font-semibold">{error}</p>
         <h3 className="text-2xl pb-2">Signup as Owner</h3>
         <hr className="pb-6" />
         <TextField
@@ -99,7 +99,9 @@ function Register() {
         </Button>
         <p className="text-center">
           Already have an account
-          <span className="text-primary pl-1 hover:cursor-pointer">Login</span>
+          <Link to="/login" className="text-primary pl-1 hover:cursor-pointer">
+            Login
+          </Link>
         </p>
       </form>
     </div>

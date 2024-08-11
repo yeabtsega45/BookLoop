@@ -5,6 +5,7 @@ import Login from "@/pages/Login";
 import OwnerDashboard from "@/pages/owner/OwnerDashboard";
 import BookUpload from "@/pages/owner/BookUpload";
 import Register from "@/pages/Register";
+import AdminOwners from "./pages/admin/AdminOwners";
 
 function App() {
   const location = useLocation();
@@ -20,6 +21,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<OwnerDashboard />} />
             <Route path="/bookupload" element={<BookUpload />} />
+            <Route path="/admin/owners" element={<AdminOwners />} />
           </Routes>
         </div>
       </div>
