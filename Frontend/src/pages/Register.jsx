@@ -9,7 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const [values, setValues] = useState({
+  const [data, setData] = useState({
     email: "",
     password: "",
     location: "",
@@ -22,7 +22,7 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/auth/register", values)
+      .post("/auth/register", data)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         navigate("/");
@@ -38,11 +38,15 @@ function Register() {
       <div className="bg-secondary h-full w-[50%] flex justify-center items-center">
         <img src={group1white} alt="group1white" />
       </div>
-      <div className="bg-white h-full w-[50%] flex flex-col justify-center px-20">
+      <form
+        className="bg-white h-full w-[50%] flex flex-col justify-center px-20"
+        onSubmit={handleSubmit}
+      >
         <div className="flex items-center pb-10">
           <img src={group1} alt="group1" />
           <h2 className="text-3xl pl-2">Book Rent</h2>
         </div>
+        <div className="text-red-600 font-semibold">{error}</div>
         <h3 className="text-2xl pb-2">Signup as Owner</h3>
         <hr className="pb-6" />
         <TextField
@@ -50,12 +54,14 @@ function Register() {
           label="Email address"
           variant="outlined"
           sx={{ mb: 2 }}
+          onChange={(e) => setData({ ...data, email: e.target.value })}
         />
         <TextField
           id="outlined-password-input"
           label="Password"
           type="password"
           sx={{ mb: 2 }}
+          onChange={(e) => setData({ ...data, password: e.target.value })}
         />
         <TextField
           id="outlined-password-input"
@@ -68,26 +74,33 @@ function Register() {
           label="Location"
           variant="outlined"
           sx={{ mb: 2 }}
+          onChange={(e) => setData({ ...data, location: e.target.value })}
         />
         <TextField
           id="outlined-basic"
           label="Phone Number"
           variant="outlined"
           sx={{ mb: 2 }}
+          onChange={(e) => setData({ ...data, phoneNumber: e.target.value })}
         />
         <FormControlLabel
           control={<Checkbox />}
           label="I accept the Terms and Conditions"
           sx={{ mb: 2 }}
         />
-        <Button variant="contained" color="primary" sx={{ mb: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          sx={{ mb: 2 }}
+        >
           Sign up
         </Button>
         <p className="text-center">
           Already have an account
           <span className="text-primary pl-1 hover:cursor-pointer">Login</span>
         </p>
-      </div>
+      </form>
     </div>
   );
 }
