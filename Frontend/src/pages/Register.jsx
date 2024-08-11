@@ -9,6 +9,30 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    location: "",
+    phoneNumber: "",
+  });
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post("/auth/register", values)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        navigate("/");
+      })
+      .catch((err) => {
+        setError("Wrong password");
+        console.log(err);
+      });
+  };
+
   return (
     <div className="flex h-screen w-full">
       <div className="bg-secondary h-full w-[50%] flex justify-center items-center">
