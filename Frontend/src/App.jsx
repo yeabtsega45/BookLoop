@@ -11,13 +11,14 @@ function App() {
   const location = useLocation();
   const showSidebar = !["/register", "/login"].includes(location.pathname);
 
+
   return (
     <>
-      <div className="w-full h-full flex justify-between items-center m-auto bg-primary-background">
+      <div className="w-full max-w-[100vw] h-full flex items-center m-auto bg-primary-background  gap-5">
         {showSidebar && <SideBar />}
         <div
-          className={`flex-1 justify-center items-center m-auto ${
-            showSidebar ? "ml-[279px] h-[95.8%]" : "w-full h-full"
+          className={`flex-1 ${
+            showSidebar ? " h-[95.8%] " : "w-full h-full"
           }`}
         >
           <Routes>

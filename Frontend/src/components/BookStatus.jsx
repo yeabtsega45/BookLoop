@@ -106,7 +106,7 @@ const BookStatus = () => {
         header: "Actions",
         // Display edit & delete icons on actions column
         Cell: ({ row, table }) => (
-          <Box>
+          <div className='!p-0 !m-0 '>
             <IconButton
               onClick={() => {
                 table.setEditingRow(row);
@@ -123,7 +123,7 @@ const BookStatus = () => {
             >
               <DeleteIcon sx={{ color: "red" }} />
             </IconButton>
-          </Box>
+          </div>
         ),
       },
     ],
@@ -144,6 +144,7 @@ const BookStatus = () => {
       <Typography
         variant="h6"
         style={{ padding: "12px 28px", fontWeight: 600 }}
+        className="!pt-[74px]"
       >
         Live Book Status
       </Typography>
@@ -155,15 +156,16 @@ const BookStatus = () => {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: { width: "93%", height: "90%" } }, // Table styling
+    muiTableProps: { sx: { width: "93%", height: "90%",padding:"20px" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
     enableSorting: false, // Remove header options
+    
   });
 
   return (
-    <div className="bg-primary-contrast flex justify-center items-center w-full h-full m-auto rounded-2xl">
+    <div className="bg-primary-contrast flex justify-center items-center w-full h-full m-auto rounded-2xl  ">
       <MaterialReactTable table={table} />
     </div>
   );
