@@ -17,17 +17,30 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = "285px";
 const drawerHeight = "96vh";
 
 const Sidebar = ({ toggleSidebar }) => {
   const theme = useTheme();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState({ list: 0, index: 0 });
 
-  const handleListItemClick = (index) => {
-    setActiveIndex(index);
+  const handleListItemClick = (list, index) => {
+    setActiveIndex({ list, index });
   };
+
+  const routes = [
+    "/",
+    "/bookupload",
+    "/other",
+    "/other",
+    "/other",
+    "/notifications",
+    "/settings",
+    "/login",
+  ];
 
   return (
     <Drawer
@@ -69,49 +82,55 @@ const Sidebar = ({ toggleSidebar }) => {
         <List sx={{ px: 3 }}>
           {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
             (text, index) => (
-              <ListItem
+              <NavLink
+                to={routes[index]}
+                style={{ textDecoration: "none" }}
                 key={text}
-                disablePadding
-                sx={{
-                  borderRadius: "4px",
-                  "&:hover": {
-                    backgroundColor: theme.palette.action.hover,
-                  },
-                  backgroundColor:
-                    activeIndex === index
-                      ? theme.palette.primary.main
-                      : "inherit",
-                  color:
-                    activeIndex === index
-                      ? theme.palette.primary.contrastText
-                      : "inherit",
-                  cursor: "pointer",
-                  py: 1,
-                  mb: 1,
-                }}
-                onClick={() => handleListItemClick(index)}
               >
-                <ListItemIcon
+                <ListItem
+                  key={text}
+                  disablePadding
                   sx={{
+                    borderRadius: "4px",
+                    "&:hover": {
+                      backgroundColor: theme.palette.action.hover,
+                    },
+                    backgroundColor:
+                      activeIndex.list === 0 && activeIndex.index === index
+                        ? theme.palette.primary.main
+                        : "inherit",
                     color:
-                      activeIndex === index
+                      activeIndex.list === 0 && activeIndex.index === index
                         ? theme.palette.primary.contrastText
                         : "inherit",
-                    fontSize: 24,
-                    pl: 2,
+                    cursor: "pointer",
+                    py: 1,
+                    mb: 1,
                   }}
+                  onClick={() => handleListItemClick(0, index)}
                 >
-                  {index === 0 ? <SpaceDashboardOutlinedIcon /> : null}
-                  {index === 1 ? <AutoStoriesOutlinedIcon /> : null}
-                  {index === 2 ? <AddBoxOutlinedIcon /> : null}
-                  {index === 3 ? <AddBoxOutlinedIcon /> : null}
-                  {index === 4 ? <AddBoxOutlinedIcon /> : null}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={{ fontSize: 14, fontWeight: "regular" }}
-                />
-              </ListItem>
+                  <ListItemIcon
+                    sx={{
+                      color:
+                        activeIndex.list === 0 && activeIndex.index === index
+                          ? theme.palette.primary.contrastText
+                          : "inherit",
+                      fontSize: 24,
+                      pl: 2,
+                    }}
+                  >
+                    {index === 0 ? <SpaceDashboardOutlinedIcon /> : null}
+                    {index === 1 ? <AutoStoriesOutlinedIcon /> : null}
+                    {index === 2 ? <AddBoxOutlinedIcon /> : null}
+                    {index === 3 ? <AddBoxOutlinedIcon /> : null}
+                    {index === 4 ? <AddBoxOutlinedIcon /> : null}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={text}
+                    sx={{ fontSize: 14, fontWeight: "regular" }}
+                  />
+                </ListItem>
+              </NavLink>
             )
           )}
         </List>
@@ -127,23 +146,23 @@ const Sidebar = ({ toggleSidebar }) => {
                   backgroundColor: theme.palette.action.hover,
                 },
                 backgroundColor:
-                  activeIndex === index
+                  activeIndex.list === 1 && activeIndex.index === index
                     ? theme.palette.primary.main
                     : "inherit",
                 color:
-                  activeIndex === index
+                  activeIndex.list === 1 && activeIndex.index === index
                     ? theme.palette.primary.contrastText
                     : "inherit",
                 cursor: "pointer",
                 py: 1,
                 mb: 1,
               }}
-              onClick={() => handleListItemClick(index)}
+              onClick={() => handleListItemClick(1, index)}
             >
               <ListItemIcon
                 sx={{
                   color:
-                    activeIndex === index
+                    activeIndex.list === 1 && activeIndex.index === index
                       ? theme.palette.primary.contrastText
                       : "inherit",
                   pl: 2,
@@ -172,6 +191,10 @@ const Sidebar = ({ toggleSidebar }) => {
       </Button>
     </Drawer>
   );
+};
+
+Sidebar.propTypes = {
+  toggleSidebar: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
