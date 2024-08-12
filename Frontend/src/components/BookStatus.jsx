@@ -63,6 +63,17 @@ const BookStatus = () => {
           type: "number", // data type
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', margin:"auto" },
+        },
+        size:50
+
       },
       {
         accessorKey: "bookNo",
@@ -71,6 +82,17 @@ const BookStatus = () => {
           type: "number",
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', display:"flex", justifyContent:"center"},
+        },
+        size:100
+
       },
       {
         accessorKey: "bookName",
@@ -78,6 +100,16 @@ const BookStatus = () => {
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', },
+        },
+        size:180
       },
       {
         accessorKey: "status",
@@ -100,6 +132,16 @@ const BookStatus = () => {
           type: "number",
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', display:"flex", justifyContent:"center", margin:"auto"},
+        },
+        size:50
       },
       {
         id: "actions",
@@ -156,16 +198,34 @@ const BookStatus = () => {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: { width: "93%", height: "90%",padding:"20px" } }, // Table styling
+    muiTableProps: { sx: {  height: "90%",padding:"20px",width:"100%" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
     enableSorting: false, // Remove header options
+    muiTableBodyCellProps: {
+      sx: {
+        padding: "0", // Adjust padding here for table cells
+      },
+    },
+    muiTableBodyRowProps:{
+      sx:{
+        width:"20px"
+      }
+    },
+  
+    muiTablePaperProps:{
+      sx:{
+        
+        width:"100%"
+
+      }
+    }
     
   });
 
   return (
-    <div className="bg-primary-contrast flex justify-center items-center w-full h-full m-auto rounded-2xl  ">
+    <div className="bg-primary-contrast flex items-center w-full h-full  rounded-2xl ">
       <MaterialReactTable table={table} />
     </div>
   );
