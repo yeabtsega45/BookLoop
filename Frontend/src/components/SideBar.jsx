@@ -18,17 +18,24 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const drawerWidth = "285px";
 const drawerHeight = "96vh";
 
 const Sidebar = ({ toggleSidebar }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
   const [activeIndex, setActiveIndex] = useState({ list: 0, index: 0 });
 
   const handleListItemClick = (list, index) => {
     setActiveIndex({ list, index });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   const routes = [
@@ -185,6 +192,7 @@ const Sidebar = ({ toggleSidebar }) => {
         variant="contained"
         color="third"
         sx={{ width: "90%", mx: "auto", mb: 5 }}
+        onClick={handleLogout}
       >
         <LogoutOutlinedIcon />
         <span>Logout</span>

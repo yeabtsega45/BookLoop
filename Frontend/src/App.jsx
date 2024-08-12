@@ -10,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import NotFound from "./pages/NotFound";
+// import AuthChecker from "./utils/AuthCheker";
 
 function App() {
   const location = useLocation();
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <>
+      {/* <AuthChecker> */}
       <div className="relative w-full max-w-[100vw] h-full flex items-center m-auto bg-primary-background  gap-5">
         {canShowSidebar && (
           <div>
@@ -52,6 +54,7 @@ function App() {
           </Routes>
         </div>
       </div>
+      {/* </AuthChecker> */}
     </>
   );
 }

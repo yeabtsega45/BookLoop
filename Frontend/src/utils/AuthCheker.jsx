@@ -16,7 +16,7 @@ const AuthChecker = ({ children }) => {
 
       // Make a request to your backend to verify the token
       axios
-        .get("/api/verify-token", {
+        .get("/auth/verifytoken", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -53,4 +53,14 @@ authController.post("/login", async (req, res) => {
   }
 });
 
+// Check authorization
+authController.get("/verifytoken", verifyToken, async (req, res) => {
+  try {
+    // If the middleware passes, the token is valid
+    res.status(200).json({ message: "Token is valid" });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+});
+
 module.exports = authController;
