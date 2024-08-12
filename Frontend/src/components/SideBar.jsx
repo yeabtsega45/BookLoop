@@ -18,10 +18,10 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
-const drawerWidth = "279px";
+const drawerWidth = "285px";
 const drawerHeight = "96vh";
 
-const Sidebar = () => {
+const Sidebar = ({ toggleSidebar }) => {
   const theme = useTheme();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -51,14 +51,16 @@ const Sidebar = () => {
         },
       }}
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col !w-[279px] self-center">
         <div className="flex flex-col px-5">
           <div className="flex items-center pt-4 pb-10">
-            <MenuIcon
-              sx={{
-                color: theme.palette.secondary.contrastText,
-              }}
-            />
+            <div onClick={() => toggleSidebar()}>
+              <MenuIcon
+                sx={{
+                  color: theme.palette.secondary.contrastText,
+                }}
+              />
+            </div>
             <img src={group1dash} alt="group1dash" className="w-[20%] pl-4" />
             <p className="text-primary text-xl pl-3">Book Rent</p>
           </div>

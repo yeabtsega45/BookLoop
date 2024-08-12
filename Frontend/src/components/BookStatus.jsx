@@ -63,6 +63,17 @@ const BookStatus = () => {
           type: "number", // data type
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', margin:"auto" },
+        },
+        size:50
+
       },
       {
         accessorKey: "bookNo",
@@ -71,6 +82,17 @@ const BookStatus = () => {
           type: "number",
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', display:"flex", justifyContent:"center"},
+        },
+        size:100
+
       },
       {
         accessorKey: "bookName",
@@ -78,6 +100,16 @@ const BookStatus = () => {
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', },
+        },
+        size:180
       },
       {
         accessorKey: "status",
@@ -100,13 +132,23 @@ const BookStatus = () => {
           type: "number",
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: '10px' ,
+           
+          },
+
+        },
+        muiTableBodyCellProps: {
+          sx: { width: '20px', display:"flex", justifyContent:"center", margin:"auto"},
+        },
+        size:50
       },
       {
         id: "actions",
         header: "Actions",
         // Display edit & delete icons on actions column
         Cell: ({ row, table }) => (
-          <Box>
+          <div className='!p-0 !m-0 '>
             <IconButton
               onClick={() => {
                 table.setEditingRow(row);
@@ -123,7 +165,7 @@ const BookStatus = () => {
             >
               <DeleteIcon sx={{ color: "red" }} />
             </IconButton>
-          </Box>
+          </div>
         ),
       },
     ],
@@ -144,6 +186,7 @@ const BookStatus = () => {
       <Typography
         variant="h6"
         style={{ padding: "12px 28px", fontWeight: 600 }}
+        className="!pt-[74px]"
       >
         Live Book Status
       </Typography>
@@ -155,15 +198,34 @@ const BookStatus = () => {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: { width: "93%", height: "90%" } }, // Table styling
+    muiTableProps: { sx: {  height: "90%",padding:"20px",width:"100%" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
     enableSorting: false, // Remove header options
+    muiTableBodyCellProps: {
+      sx: {
+        padding: "0", // Adjust padding here for table cells
+      },
+    },
+    muiTableBodyRowProps:{
+      sx:{
+        width:"20px"
+      }
+    },
+  
+    muiTablePaperProps:{
+      sx:{
+        
+        width:"100%"
+
+      }
+    }
+    
   });
 
   return (
-    <div className="bg-primary-contrast flex justify-center items-center w-full h-full m-auto rounded-2xl">
+    <div className="bg-primary-contrast flex items-center w-full h-full  rounded-2xl ">
       <MaterialReactTable table={table} />
     </div>
   );
