@@ -18,8 +18,8 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
-const drawerWidth = "19%";
-const drawerHeight = "96.4%";
+const drawerWidth = "279px";
+const drawerHeight = "96vh";
 
 const Sidebar = () => {
   const theme = useTheme();

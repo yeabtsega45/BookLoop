@@ -13,11 +13,11 @@ function App() {
 
   return (
     <>
-      <div className="w-full h-full flex justify-center items-center m-auto bg-primary-background">
+      <div className="w-full h-full flex justify-between items-center m-auto bg-primary-background">
         {showSidebar && <SideBar />}
         <div
           className={`flex-1 justify-center items-center m-auto ${
-            showSidebar ? "w-[77.8%] h-[95.8%]" : "w-full h-full"
+            showSidebar ? "ml-[279px] h-[95.8%]" : "w-full h-full"
           }`}
         >
           <Routes>

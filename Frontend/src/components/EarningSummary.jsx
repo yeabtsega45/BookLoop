@@ -38,7 +38,8 @@ function EarningSummary() {
         </div>
       </div>
       <ChartContainer
-        width={1000}
+        width={800}
+        // width={1000}
         height={300}
         series={[
           { data: line1, type: "line", color: "#006AFF" },
