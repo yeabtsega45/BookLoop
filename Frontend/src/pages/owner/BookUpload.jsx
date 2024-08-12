@@ -20,7 +20,7 @@ function BookUpload() {
   return (
     <div className="flex flex-col justify-between items-center w-full h-full m-auto pt-4">
       <Header role="Owner" page="Book Upload" />
-      <div className="bg-primary-contrast flex flex-col justify-center items-center w-full h-[91.1%] m-auto mt-5 rounded-2xl">
+      <div className="bg-primary-contrast flex flex-col justify-center items-center w-[1146px] h-[91.1%] m-auto mt-5 pb-72 rounded-2xl">
         <h1 className="text-[#525256] text-[22px] font-medium mt-12 mb-7">
           Upload new Book
         </h1>
