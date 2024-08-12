@@ -8,8 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PropTypes from "prop-types";
 import Switch from "@mui/material/Switch";
-
-const label = { inputProps: { "aria-label": "Switch demo" } };
+import DoneIcon from "@mui/icons-material/Done";
 
 function ListOfOwners() {
   const [data, setData] = useState([
@@ -39,17 +38,38 @@ function ListOfOwners() {
       owner: "Nardos T",
       upload: "15 Books",
       location: "Addis Ababa",
-      status: "Inactive",
+      status: "Active",
     },
     {
       no: 5,
       owner: "Nardos T",
       upload: "15 Books",
       location: "Addis Ababa",
-      status: "Inactive",
+      status: "Active",
     },
     {
       no: 6,
+      owner: "Nardos T",
+      upload: "15 Books",
+      location: "Addis Ababa",
+      status: "Active",
+    },
+    {
+      no: 7,
+      owner: "Nardos T",
+      upload: "15 Books",
+      location: "Addis Ababa",
+      status: "Inactive",
+    },
+    {
+      no: 8,
+      owner: "Nardos T",
+      upload: "15 Books",
+      location: "Addis Ababa",
+      status: "Inactive",
+    },
+    {
+      no: 9,
       owner: "Nardos T",
       upload: "15 Books",
       location: "Addis Ababa",
@@ -86,28 +106,36 @@ function ListOfOwners() {
         header: "Status",
         // Display switch on status column
         Cell: ({ row }) => (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color: row.original.status === "Active" ? "#008000" : "default",
+              backgroundColor: "#0080001A",
+              px: "15px",
+              borderRadius: "16px",
+            }}
+          >
+            <DoneIcon />
             <Typography>{row.original.status}</Typography>
             <Switch
-              {...label}
               defaultChecked
-              color={row.original.status === "Active" ? "#008000" : "default"}
+              color={row.original.status === "Active" ? "success" : "default"}
             />
           </Box>
         ),
       },
       {
         accessorKey: "location",
-        header: "Price",
+        header: "Location",
         muiTableBodyCellEditTextFieldProps: {
-          type: "number",
           variant: "standard",
         },
       },
       {
         id: "actions",
         header: "Actions",
-        // Display edit & delete icons on actions column
+        // Display view & delete icons on actions column
         Cell: ({ row, table }) => (
           <Box>
             <IconButton
@@ -176,10 +204,10 @@ ListOfOwners.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       no: PropTypes.number.isRequired,
-      owner: PropTypes.number.isRequired,
+      owner: PropTypes.string.isRequired,
       upload: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
-      location: PropTypes.number.isRequired,
+      location: PropTypes.string.isRequired,
     })
   ),
   row: PropTypes.object.isRequired,

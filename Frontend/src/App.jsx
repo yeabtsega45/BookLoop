@@ -15,7 +15,11 @@ function App() {
     <>
       <div className="w-full h-full flex justify-center items-center m-auto bg-primary-background">
         {showSidebar && <SideBar />}
-        <div className={`flex-1 ${showSidebar ? "" : "w-full"}`}>
+        <div
+          className={`flex-1 justify-center items-center m-auto ${
+            showSidebar ? "w-[77.8%] h-[95.8%]" : "w-full h-full"
+          }`}
+        >
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
