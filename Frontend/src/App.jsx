@@ -17,7 +17,7 @@ function App() {
         {showSidebar && <SideBar />}
         <div
           className={`flex-1 justify-center items-center m-auto ${
-            showSidebar ? "ml-[279px] h-[95.8%]" : "w-full h-full"
+            showSidebar ? "w-[77.8%] h-[95.8%]" : "w-full h-full"
           }`}
         >
           <Routes>
