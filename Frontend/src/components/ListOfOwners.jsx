@@ -86,6 +86,13 @@ function ListOfOwners() {
           type: "number", // data type
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: "10px" },
+        },
+        muiTableBodyCellProps: {
+          sx: { width: "20px", margin: "auto" },
+        },
+        size: 50,
       },
       {
         accessorKey: "owner",
@@ -93,6 +100,13 @@ function ListOfOwners() {
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: "10px" },
+        },
+        muiTableBodyCellProps: {
+          sx: { width: "20px" },
+        },
+        size: 180,
       },
       {
         accessorKey: "upload",
@@ -100,6 +114,13 @@ function ListOfOwners() {
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: "10px" },
+        },
+        muiTableBodyCellProps: {
+          sx: { width: "20px", display: "flex", justifyContent: "center" },
+        },
+        size: 100,
       },
       {
         accessorKey: "status",
@@ -131,13 +152,20 @@ function ListOfOwners() {
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
+        muiTableHeadCellProps: {
+          sx: { width: "10px" },
+        },
+        muiTableBodyCellProps: {
+          sx: { width: "20px" },
+        },
+        size: 180,
       },
       {
         id: "actions",
         header: "Actions",
         // Display view & delete icons on actions column
         Cell: ({ row, table }) => (
-          <Box>
+          <div className="!p-0 !m-0 ">
             <IconButton
               onClick={() => {
                 table.setEditingRow(row);
@@ -154,7 +182,7 @@ function ListOfOwners() {
             >
               <DeleteIcon sx={{ color: "red" }} />
             </IconButton>
-          </Box>
+          </div>
         ),
       },
     ],
@@ -175,6 +203,7 @@ function ListOfOwners() {
       <Typography
         variant="h6"
         style={{ padding: "12px 28px", fontWeight: 600 }}
+        className="!pt-[74px]"
       >
         List of Owners
       </Typography>
@@ -186,18 +215,34 @@ function ListOfOwners() {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: { width: "100%" } }, // Table styling
+    muiTableProps: { sx: { width: "100%", height: "90%", padding: "20px" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
     enableSorting: false, // Remove header options
+    muiTableBodyCellProps: {
+      sx: {
+        padding: "0", // Adjust padding here for table cells
+      },
+    },
+    muiTableBodyRowProps: {
+      sx: {
+        width: "20px",
+      },
+    },
+
+    muiTablePaperProps: {
+      sx: {
+        width: "1143px",
+        height: "90vh",
+        my: "20px",
+        borderRadius: "20px",
+        pb: "24px",
+      },
+    },
   });
 
-  return (
-    <div className="bg-primary-contrast flex flex-col justify-center items-center w-full h-[91.1%] m-auto mt-5 rounded-2xl">
-      <MaterialReactTable table={table} />
-    </div>
-  );
+  return <MaterialReactTable table={table} />;
 }
 
 ListOfOwners.propTypes = {

@@ -64,16 +64,12 @@ const BookStatus = () => {
           variant: "standard",
         },
         muiTableHeadCellProps: {
-          sx: { width: '10px' ,
-           
-          },
-
+          sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: { width: '20px', margin:"auto" },
+          sx: { width: "20px", margin: "auto" },
         },
-        size:50
-
+        size: 50,
       },
       {
         accessorKey: "bookNo",
@@ -83,16 +79,12 @@ const BookStatus = () => {
           variant: "standard",
         },
         muiTableHeadCellProps: {
-          sx: { width: '10px' ,
-           
-          },
-
+          sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: { width: '20px', display:"flex", justifyContent:"center"},
+          sx: { width: "20px", display: "flex", justifyContent: "center" },
         },
-        size:100
-
+        size: 100,
       },
       {
         accessorKey: "bookName",
@@ -101,15 +93,12 @@ const BookStatus = () => {
           variant: "standard",
         },
         muiTableHeadCellProps: {
-          sx: { width: '10px' ,
-           
-          },
-
+          sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: { width: '20px', },
+          sx: { width: "20px" },
         },
-        size:180
+        size: 180,
       },
       {
         accessorKey: "status",
@@ -133,22 +122,24 @@ const BookStatus = () => {
           variant: "standard",
         },
         muiTableHeadCellProps: {
-          sx: { width: '10px' ,
-           
-          },
-
+          sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: { width: '20px', display:"flex", justifyContent:"center", margin:"auto"},
+          sx: {
+            width: "20px",
+            display: "flex",
+            justifyContent: "center",
+            margin: "auto",
+          },
         },
-        size:50
+        size: 50,
       },
       {
         id: "actions",
         header: "Actions",
         // Display edit & delete icons on actions column
         Cell: ({ row, table }) => (
-          <div className='!p-0 !m-0 '>
+          <div className="!p-0 !m-0 ">
             <IconButton
               onClick={() => {
                 table.setEditingRow(row);
@@ -198,7 +189,7 @@ const BookStatus = () => {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: {  height: "90%",padding:"20px",width:"100%" } }, // Table styling
+    muiTableProps: { sx: { height: "90%", padding: "20px", width: "100%" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
@@ -208,24 +199,21 @@ const BookStatus = () => {
         padding: "0", // Adjust padding here for table cells
       },
     },
-    muiTableBodyRowProps:{
-      sx:{
-        width:"20px"
-      }
+    muiTableBodyRowProps: {
+      sx: {
+        width: "20px",
+      },
     },
-  
-    muiTablePaperProps:{
-      sx:{
-        
-        width:"100%"
 
-      }
-    }
-    
+    muiTablePaperProps: {
+      sx: {
+        width: "100%",
+      },
+    },
   });
 
   return (
-    <div className="bg-primary-contrast flex items-center w-full h-full  rounded-2xl ">
+    <div className="bg-primary-contrast flex items-center w-full h-full rounded-2xl">
       <MaterialReactTable table={table} />
     </div>
   );
