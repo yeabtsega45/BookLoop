@@ -9,7 +9,7 @@ const AuthChecker = ({ children }) => {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       // If we're already on the login or register page, don't redirect
       if (location.pathname === "/login" || location.pathname === "/register") {
         setIsChecking(false);
@@ -20,57 +20,45 @@ const AuthChecker = ({ children }) => {
 
       if (!token) {
         // No token, check if user exists
-        axios
-          .post("/auth/checkuser", {
+        try {
+          const response = await axios.post("/auth/checkuser", {
             email: localStorage.getItem("userEmail"),
-          })
-          .then((response) => {
-            if (response.status === 200) {
-              // User exists, redirect to login
-              navigate("/login");
-            } else {
-              // User doesn't exist, redirect to register
-              navigate("/register");
-            }
-          })
-          .catch((error) => {
-            console.error("Error checking user:", error);
-            navigate("/register");
-          })
-          .finally(() => {
-            setIsChecking(false);
           });
+          if (response.status === 200) {
+            // User exists, redirect to login
+            navigate("/login");
+          } else {
+            // User doesn't exist, redirect to register
+            navigate("/register");
+          }
+        } catch (error) {
+          console.error("Error checking user:", error);
+          navigate("/register");
+        }
       } else {
         // Verify token
-        axios
-          .get("/auth/verifytoken", {
+        try {
+          const response = await axios.get("/auth/verifytoken", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          })
-          .then((response) => {
-            if (response.status === 200) {
-              // Token is valid, user is authenticated
-              if (location.pathname === "/") {
-                setIsChecking(false);
-              } else {
-                navigate("/");
-              }
-            } else {
-              // Token is invalid or expired
-              localStorage.removeItem("token");
-              navigate("/login");
-            }
-          })
-          .catch((error) => {
-            console.error("Error verifying token:", error);
+          });
+          if (response.status === 200) {
+            // Token is valid, user is authenticated
+            // Don't navigate, allow access to the current route
+            setIsChecking(false);
+          } else {
+            // Token is invalid or expired
             localStorage.removeItem("token");
             navigate("/login");
-          })
-          .finally(() => {
-            setIsChecking(false);
-          });
+          }
+        } catch (error) {
+          console.error("Error verifying token:", error);
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
       }
+      setIsChecking(false);
     };
 
     checkAuth();

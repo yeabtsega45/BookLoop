@@ -27,10 +27,10 @@ const Sidebar = ({ toggleSidebar }) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [activeIndex, setActiveIndex] = useState({ list: 0, index: 0 });
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleListItemClick = (list, index) => {
-    setActiveIndex({ list, index });
+  const handleListItemClick = (index) => {
+    setActiveIndex(index);
   };
 
   const handleLogout = () => {
@@ -87,8 +87,8 @@ const Sidebar = ({ toggleSidebar }) => {
           </div>
           <hr className="text-text-secondary pb-5" />
         </div>
-        <List sx={{ px: 3 }}>
-          {["Dashboard", "Book Upload", "Other", "Other", "other"].map(
+        <List sx={{ px: 3, pb: "20px" }}>
+          {["Dashboard", "Book Upload", "Other", "Other", "Other"].map(
             (text, index) => (
               <NavLink
                 to={routes[index]}
@@ -104,23 +104,23 @@ const Sidebar = ({ toggleSidebar }) => {
                       backgroundColor: theme.palette.action.hover,
                     },
                     backgroundColor:
-                      activeIndex.list === 0 && activeIndex.index === index
+                      activeIndex === index
                         ? theme.palette.primary.main
                         : "inherit",
                     color:
-                      activeIndex.list === 0 && activeIndex.index === index
+                      activeIndex === index
                         ? theme.palette.primary.contrastText
                         : "inherit",
                     cursor: "pointer",
                     py: 1,
                     mb: 1,
                   }}
-                  onClick={() => handleListItemClick(0, index)}
+                  onClick={() => handleListItemClick(index)}
                 >
                   <ListItemIcon
                     sx={{
                       color:
-                        activeIndex.list === 0 && activeIndex.index === index
+                        activeIndex === index
                           ? theme.palette.primary.contrastText
                           : "inherit",
                       fontSize: 24,
@@ -142,52 +142,57 @@ const Sidebar = ({ toggleSidebar }) => {
             )
           )}
         </List>
-        <hr className="text-text-secondary py-5 mx-5" />
-        <List sx={{ px: 3 }}>
+        <hr className="text-text-secondary mx-5" />
+        <List sx={{ px: 3, pt: "20px" }}>
           {["Notification", "Setting", "Login as Admin"].map((text, index) => (
-            <ListItem
+            <NavLink
+              to={routes[index + 5]}
+              style={{ textDecoration: "none" }}
               key={text}
-              disablePadding
-              sx={{
-                borderRadius: "4px",
-                "&:hover": {
-                  backgroundColor: theme.palette.action.hover,
-                },
-                backgroundColor:
-                  activeIndex.list === 1 && activeIndex.index === index
-                    ? theme.palette.primary.main
-                    : "inherit",
-                color:
-                  activeIndex.list === 1 && activeIndex.index === index
-                    ? theme.palette.primary.contrastText
-                    : "inherit",
-                cursor: "pointer",
-                py: 1,
-                mb: 1,
-              }}
-              onClick={() => handleListItemClick(1, index)}
             >
-              <ListItemIcon
+              <ListItem
+                key={text}
+                disablePadding
                 sx={{
+                  borderRadius: "4px",
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                  backgroundColor:
+                    activeIndex === index + 5
+                      ? theme.palette.primary.main
+                      : "inherit",
                   color:
-                    activeIndex.list === 1 && activeIndex.index === index
+                    activeIndex === index + 5
                       ? theme.palette.primary.contrastText
                       : "inherit",
-                  pl: 2,
+                  cursor: "pointer",
+                  py: 1,
+                  mb: 1,
                 }}
+                onClick={() => handleListItemClick(index + 5)}
               >
-                {index === 0 ? <NotificationsOutlinedIcon /> : null}
-                {index === 1 ? <SettingsOutlinedIcon /> : null}
-                {index === 2 ? <AccountCircleOutlinedIcon /> : null}
-              </ListItemIcon>
-              <ListItemText
-                primary={text}
-                sx={{ fontSize: 14, fontWeight: "regular" }}
-              />
-            </ListItem>
+                <ListItemIcon
+                  sx={{
+                    color:
+                      activeIndex === index + 5
+                        ? theme.palette.primary.contrastText
+                        : "inherit",
+                    pl: 2,
+                  }}
+                >
+                  {index === 0 ? <NotificationsOutlinedIcon /> : null}
+                  {index === 1 ? <SettingsOutlinedIcon /> : null}
+                  {index === 2 ? <AccountCircleOutlinedIcon /> : null}
+                </ListItemIcon>
+                <ListItemText
+                  primary={text}
+                  sx={{ fontSize: 14, fontWeight: "regular" }}
+                />
+              </ListItem>
+            </NavLink>
           ))}
         </List>
-        <hr className="text-text-secondary py-5 mx-5" />
       </div>
       <Button
         variant="contained"
