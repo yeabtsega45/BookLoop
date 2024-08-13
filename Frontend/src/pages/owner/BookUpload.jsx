@@ -5,7 +5,6 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import SearchBook from "../../components/SearchBook";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Modal, Box, Typography } from "@mui/material";
 import smile from "@/assets/smile 1.png";
 
@@ -49,8 +48,8 @@ function BookUpload() {
 
   const [openModal, setOpenModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const handleSubmit = (event) => {
@@ -58,6 +57,7 @@ function BookUpload() {
 
     setOpenModal(true);
     setModalMessage("Submitting book data...");
+    setIsSuccess(false);
 
     const formdata = new FormData();
     for (const key in data) {
@@ -76,14 +76,13 @@ function BookUpload() {
       })
       .then((res) => {
         setModalMessage("Book uploaded successfully!");
+        setIsSuccess(true);
+
         console.log(res);
-        setTimeout(() => {
-          setOpenModal(false);
-          navigate("/bookupload");
-        }, 2000);
       })
       .catch((err) => {
-        setModalMessage("Error uploading book. Please try again.");
+        setModalMessage(`Error uploading book: ${err.message}`);
+        setIsSuccess(false);
         console.log(err);
       });
   };
@@ -155,13 +154,15 @@ function BookUpload() {
       </form>
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box sx={modalStyle}>
-          <img src={smile} alt="smile" />
-          <Typography
-            id="modal-modal-title"
-            sx={{ fontSize: "18px", fontWeight: 600, mt: "10px" }}
-          >
-            Congrats!
-          </Typography>
+          {isSuccess && <img src={smile} alt="smile" />}
+          {isSuccess && (
+            <Typography
+              id="modal-modal-title"
+              sx={{ fontSize: "18px", fontWeight: 600, mt: "10px" }}
+            >
+              Congrats!
+            </Typography>
+          )}
           <Typography
             id="modal-modal-description"
             sx={{
