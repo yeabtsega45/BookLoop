@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 function Header({ role, page }) {
   return (
-    <div className="w-[1186px] bg-primary-contrast rounded-2xl">
+    <div className="w-[1146px] bg-primary-contrast rounded-2xl">
       <h2 className="font-bold text-[22px] py-5 pl-12">
         {role}
         <span className="font-light text-[22px] text-text-light">/{page}</span>

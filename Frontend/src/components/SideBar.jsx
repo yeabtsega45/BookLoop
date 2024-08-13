@@ -19,7 +19,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import PropTypes from "prop-types";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const drawerWidth = "285px";
@@ -28,6 +28,7 @@ const drawerHeight = "96vh";
 const Sidebar = ({ toggleSidebar }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [userRole, setUserRole] = useState("owner");
@@ -63,6 +64,10 @@ const Sidebar = ({ toggleSidebar }) => {
     localStorage.removeItem("email");
     console.log("token removed");
     navigate("/login");
+  };
+
+  const isAdminRoute = () => {
+    return location.pathname.startsWith("/admin");
   };
 
   const ownerListItems = [
@@ -119,7 +124,8 @@ const Sidebar = ({ toggleSidebar }) => {
     },
   ];
 
-  const listItems = userRole === "admin" ? adminListItems : ownerListItems;
+  const listItems =
+    userRole === "admin" && isAdminRoute() ? adminListItems : ownerListItems;
 
   return (
     <Drawer

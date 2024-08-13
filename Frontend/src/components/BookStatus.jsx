@@ -208,6 +208,7 @@ const BookStatus = () => {
     muiTablePaperProps: {
       sx: {
         width: "100%",
+        borderRadius: "20px",
       },
     },
   });
