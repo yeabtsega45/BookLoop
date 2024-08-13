@@ -12,6 +12,8 @@ import { useTheme } from "@mui/material/styles";
 import NotFound from "@/pages/NotFound";
 import CaslAuthChecker from "@/utils/CaslAuthChecker";
 import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminBooks from "./pages/admin/AdminBooks";
 
 function App() {
   const location = useLocation();
@@ -55,7 +57,9 @@ function App() {
               <Route path="/" element={<OwnerDashboard />} />
               <Route path="/bookupload" element={<BookUpload />} />
               <Route path="/login/admin" element={<AdminLogin />} />
-              <Route path="/admin" element={<AdminOwners />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/books" element={<AdminBooks />} />
+              <Route path="/admin/owners" element={<AdminOwners />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

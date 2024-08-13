@@ -234,10 +234,8 @@ function ListOfOwners() {
     muiTablePaperProps: {
       sx: {
         width: "1143px",
-        height: "90vh",
         my: "20px",
         borderRadius: "20px",
-        pb: "24px",
       },
     },
   });
