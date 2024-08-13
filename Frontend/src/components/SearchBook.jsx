@@ -6,8 +6,7 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { styled, useTheme } from "@mui/system";
-import PropTypes from "prop-types";
+import { styled } from "@mui/system";
 
 const StyledAutocomplete = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -16,31 +15,11 @@ const StyledAutocomplete = styled(Autocomplete)({
   },
 });
 
-const CustomPaper = (props) => {
-  const theme = useTheme();
-
-  return (
-    <Paper elevation={8} style={{ padding: theme.spacing(2) }}>
-      {props.children}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-        }}
-      >
-        <Button color="primary" variant="text" onClick={props.handleOpenModal}>
-          Add
-        </Button>
-      </Box>
-    </Paper>
-  );
-};
-
-CustomPaper.propTypes = {
-  children: PropTypes.node,
-  handleOpenModal: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
-};
+const StyledPaper = styled(Paper)(() => ({
+  marginTop: "-8px",
+  borderTopLeftRadius: 0,
+  borderTopRightRadius: 0,
+}));
 
 const modalStyle = {
   position: "absolute",
@@ -51,6 +30,7 @@ const modalStyle = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
+  borderRadius: "8px",
 };
 
 function SearchBook() {
@@ -63,10 +43,10 @@ function SearchBook() {
   const [open, setOpen] = useState(false);
   const [newBookTitle, setNewBookTitle] = useState("");
   const [newBookAuthor, setNewBookAuthor] = useState("");
+  const [newBookCategory, setNewBookCategory] = useState("");
 
   const handleOpenModal = () => {
     setOpen(true);
-    console.log("Modal should open now");
   };
   const handleCloseModal = () => setOpen(false);
 
@@ -75,10 +55,12 @@ function SearchBook() {
       id: books.length + 1,
       title: newBookTitle,
       author: newBookAuthor,
+      category: newBookCategory,
     };
     setBooks([...books, newBook]);
     setNewBookTitle("");
     setNewBookAuthor("");
+    setNewBookCategory("");
     handleCloseModal();
   };
 
@@ -86,11 +68,11 @@ function SearchBook() {
     <Box width="100%" maxWidth={360}>
       <StyledAutocomplete
         value={value}
-        onChange={(event, newValue) => {
+        onChange={(newValue) => {
           setValue(newValue);
         }}
         inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(newInputValue) => {
           setInputValue(newInputValue);
         }}
         id="select-demo"
@@ -105,22 +87,17 @@ function SearchBook() {
             sx={{ backgroundColor: "#0000000F" }}
           />
         )}
-        PaperComponent={(props) => (
-          <CustomPaper
-            {...props}
-            inputValue={inputValue}
-            handleOpenModal={handleOpenModal}
-          />
-        )}
         fullWidth
       />
+      <StyledPaper elevation={8}>
+        <Box sx={{ p: 2 }}>
+          <Button color="primary" variant="text" onClick={handleOpenModal}>
+            Add
+          </Button>
+        </Box>
+      </StyledPaper>
 
-      <Modal
-        open={open}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open} onClose={handleCloseModal}>
         <Box sx={modalStyle}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add New Book
@@ -138,6 +115,14 @@ function SearchBook() {
             value={newBookAuthor}
             onChange={(e) => setNewBookAuthor(e.target.value)}
             margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Category"
+            value={newBookCategory}
+            onChange={(e) => setNewBookCategory(e.target.value)}
+            margin="normal"
+            select
           />
           <Button variant="contained" onClick={handleAddBook} sx={{ mt: 2 }}>
             Add Book

@@ -9,15 +9,25 @@ const BookSchema = new mongoose.Schema(
     },
     bookNo: {
       type: String,
+    },
+    title: {
+      type: String,
       required: true,
     },
-    bookName: {
+    author: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    quantity: {
       type: String,
       required: true,
     },
     status: {
       type: String,
-      required: true,
     },
     price: {
       type: String,

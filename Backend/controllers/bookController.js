@@ -59,7 +59,10 @@ bookController.post(
       // console.log(req.files);
       const newBook = await Book.create({
         bookNo: req.body.bookNo,
-        bookName: req.body.bookName,
+        title: req.body.title,
+        author: req.body.author,
+        category: req.body.category,
+        quantity: req.body.quantity,
         status: req.body.status,
         price: req.body.price,
         image: req.file ? req.file.filename : null,
@@ -87,7 +90,10 @@ bookController.put(
 
       const updatedData = {
         bookNo: req.body.bookNo,
-        bookName: req.body.bookName,
+        title: req.body.title,
+        author: req.body.author,
+        category: req.body.category,
+        quantity: req.body.quantity,
         status: req.body.status,
         price: req.body.price,
         currentOwner: req.user.id,
