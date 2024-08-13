@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Drawer,
@@ -17,8 +17,10 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import PropTypes from "prop-types";
 import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const drawerWidth = "285px";
 const drawerHeight = "96vh";
@@ -28,6 +30,29 @@ const Sidebar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [userRole, setUserRole] = useState("owner");
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await axios.get("/auth/verifytoken", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.status === 200) {
+            setUserRole(response.data.user.role);
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        }
+      }
+    };
+
+    fetchUserRole();
+  }, []);
 
   const handleListItemClick = (index) => {
     setActiveIndex(index);
@@ -40,16 +65,61 @@ const Sidebar = ({ toggleSidebar }) => {
     navigate("/login");
   };
 
-  const routes = [
-    "/",
-    "/bookupload",
-    "/other",
-    "/other",
-    "/other",
-    "/notifications",
-    "/settings",
-    "/login",
+  const ownerListItems = [
+    { text: "Dashboard", icon: <SpaceDashboardOutlinedIcon />, route: "/" },
+    {
+      text: "Book Upload",
+      icon: <AutoStoriesOutlinedIcon />,
+      route: "/bookupload",
+    },
+    { text: "Other", icon: <AddBoxOutlinedIcon />, route: "/other" },
+    { text: "Other", icon: <AddBoxOutlinedIcon />, route: "/other" },
+    { text: "Other", icon: <AddBoxOutlinedIcon />, route: "/other" },
+    {
+      text: "Notification",
+      icon: <NotificationsOutlinedIcon />,
+      route: "/notifications",
+    },
+    { text: "Setting", icon: <SettingsOutlinedIcon />, route: "/settings" },
+    {
+      text: "Login as Admin",
+      icon: <AccountCircleOutlinedIcon />,
+      route: "/login",
+    },
   ];
+
+  const adminListItems = [
+    {
+      text: "Dashboard",
+      icon: <SpaceDashboardOutlinedIcon />,
+      route: "/admin",
+    },
+    {
+      text: "Books",
+      icon: <AutoStoriesOutlinedIcon />,
+      route: "/admin/books",
+    },
+    { text: "Owners", icon: <Person2OutlinedIcon />, route: "/admin/owners" },
+    { text: "Other", icon: <AddBoxOutlinedIcon />, route: "/admin/other" },
+    { text: "Other", icon: <AddBoxOutlinedIcon />, route: "/admin/other" },
+    {
+      text: "Notifications",
+      icon: <NotificationsOutlinedIcon />,
+      route: "/admin/notifications",
+    },
+    {
+      text: "Settings",
+      icon: <SettingsOutlinedIcon />,
+      route: "/admin/settings",
+    },
+    {
+      text: "Login as Owner",
+      icon: <AccountCircleOutlinedIcon />,
+      route: "/login",
+    },
+  ];
+
+  const listItems = userRole === "admin" ? adminListItems : ownerListItems;
 
   return (
     <Drawer
@@ -89,70 +159,62 @@ const Sidebar = ({ toggleSidebar }) => {
           <hr className="text-text-secondary pb-5" />
         </div>
         <List sx={{ px: 3, pb: "20px" }}>
-          {["Dashboard", "Book Upload", "Other", "Other", "Other"].map(
-            (text, index) => (
-              <NavLink
-                to={routes[index]}
-                style={{ textDecoration: "none" }}
-                key={text}
+          {listItems.slice(0, 5).map((item, index) => (
+            <NavLink
+              to={item.route}
+              style={{ textDecoration: "none" }}
+              key={`${item.text}-${index}`}
+            >
+              <ListItem
+                disablePadding
+                sx={{
+                  borderRadius: "4px",
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                  backgroundColor:
+                    activeIndex === index
+                      ? theme.palette.primary.main
+                      : "inherit",
+                  color:
+                    activeIndex === index
+                      ? theme.palette.primary.contrastText
+                      : "inherit",
+                  cursor: "pointer",
+                  py: 1,
+                  mb: 1,
+                }}
+                onClick={() => handleListItemClick(index)}
               >
-                <ListItem
-                  key={text}
-                  disablePadding
+                <ListItemIcon
                   sx={{
-                    borderRadius: "4px",
-                    "&:hover": {
-                      backgroundColor: theme.palette.action.hover,
-                    },
-                    backgroundColor:
-                      activeIndex === index
-                        ? theme.palette.primary.main
-                        : "inherit",
                     color:
                       activeIndex === index
                         ? theme.palette.primary.contrastText
                         : "inherit",
-                    cursor: "pointer",
-                    py: 1,
-                    mb: 1,
+                    fontSize: 24,
+                    pl: 2,
                   }}
-                  onClick={() => handleListItemClick(index)}
                 >
-                  <ListItemIcon
-                    sx={{
-                      color:
-                        activeIndex === index
-                          ? theme.palette.primary.contrastText
-                          : "inherit",
-                      fontSize: 24,
-                      pl: 2,
-                    }}
-                  >
-                    {index === 0 ? <SpaceDashboardOutlinedIcon /> : null}
-                    {index === 1 ? <AutoStoriesOutlinedIcon /> : null}
-                    {index === 2 ? <AddBoxOutlinedIcon /> : null}
-                    {index === 3 ? <AddBoxOutlinedIcon /> : null}
-                    {index === 4 ? <AddBoxOutlinedIcon /> : null}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={text}
-                    sx={{ fontSize: 14, fontWeight: "regular" }}
-                  />
-                </ListItem>
-              </NavLink>
-            )
-          )}
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  sx={{ fontSize: 14, fontWeight: "regular" }}
+                />
+              </ListItem>
+            </NavLink>
+          ))}
         </List>
         <hr className="text-text-secondary mx-5" />
         <List sx={{ px: 3, pt: "20px" }}>
-          {["Notification", "Setting", "Login as Admin"].map((text, index) => (
+          {listItems.slice(5).map((item, index) => (
             <NavLink
-              to={routes[index + 5]}
+              to={item.route}
               style={{ textDecoration: "none" }}
-              key={text}
+              key={`${item.text}-${index + 5}`}
             >
               <ListItem
-                key={text}
                 disablePadding
                 sx={{
                   borderRadius: "4px",
@@ -182,12 +244,10 @@ const Sidebar = ({ toggleSidebar }) => {
                     pl: 2,
                   }}
                 >
-                  {index === 0 ? <NotificationsOutlinedIcon /> : null}
-                  {index === 1 ? <SettingsOutlinedIcon /> : null}
-                  {index === 2 ? <AccountCircleOutlinedIcon /> : null}
+                  {item.icon}
                 </ListItemIcon>
                 <ListItemText
-                  primary={text}
+                  primary={item.text}
                   sx={{ fontSize: 14, fontWeight: "regular" }}
                 />
               </ListItem>
