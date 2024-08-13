@@ -23,7 +23,7 @@ function Login() {
       .post("/auth/login", data)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("email", res.data.others.email);
         navigate("/");
         console.log(res.data);
       })
