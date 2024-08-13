@@ -7,6 +7,8 @@ import Paper from "@mui/material/Paper";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/system";
+import PropTypes from "prop-types";
+import { MenuItem } from "@mui/material";
 
 const StyledAutocomplete = styled(Autocomplete)({
   "& .MuiOutlinedInput-root": {
@@ -33,7 +35,7 @@ const modalStyle = {
   borderRadius: "8px",
 };
 
-function SearchBook() {
+function SearchBook({ setParentData }) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [books, setBooks] = useState([
@@ -58,6 +60,14 @@ function SearchBook() {
       category: newBookCategory,
     };
     setBooks([...books, newBook]);
+    setParentData((prevData) => ({
+      ...prevData,
+      title: newBook.title,
+      author: newBook.author,
+      category: newBook.category,
+    }));
+    setValue(newBook); // Set the newly added book as the selected value
+    setInputValue(newBook.title); // Set the input value to the new book's title
     setNewBookTitle("");
     setNewBookAuthor("");
     setNewBookCategory("");
@@ -68,16 +78,25 @@ function SearchBook() {
     <Box width="100%" maxWidth={360}>
       <StyledAutocomplete
         value={value}
-        onChange={(newValue) => {
+        onChange={(event, newValue) => {
           setValue(newValue);
+          if (newValue) {
+            setParentData((prevData) => ({
+              ...prevData,
+              title: newValue.title,
+              author: newValue.author,
+              category: newValue.category,
+            }));
+            setInputValue(newValue.title); // Set input value to the title of the selected book
+          }
         }}
         inputValue={inputValue}
-        onInputChange={(newInputValue) => {
+        onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
         }}
         id="select-demo"
         options={books}
-        getOptionLabel={(option) => option.title}
+        getOptionLabel={(option) => option.title || ""} // Ensure getOptionLabel returns a string
         renderInput={(params) => (
           <TextField
             {...params}
@@ -117,13 +136,17 @@ function SearchBook() {
             margin="normal"
           />
           <TextField
+            select
             fullWidth
             label="Category"
             value={newBookCategory}
             onChange={(e) => setNewBookCategory(e.target.value)}
             margin="normal"
-            select
-          />
+          >
+            <MenuItem value="fiction">Fiction</MenuItem>
+            <MenuItem value="self help">Self Help</MenuItem>
+            <MenuItem value="business">Business</MenuItem>
+          </TextField>
           <Button variant="contained" onClick={handleAddBook} sx={{ mt: 2 }}>
             Add Book
           </Button>
@@ -132,5 +155,9 @@ function SearchBook() {
     </Box>
   );
 }
+
+SearchBook.propTypes = {
+  setParentData: PropTypes.func.isRequired,
+};
 
 export default SearchBook;

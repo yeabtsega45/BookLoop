@@ -6,6 +6,8 @@ import SearchBook from "../../components/SearchBook";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Modal, Box, Typography } from "@mui/material";
+import smile from "@/assets/smile 1.png";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -19,6 +21,22 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "8px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContents: "center",
+  alignItems: "center",
+};
+
 function BookUpload() {
   const [data, setData] = useState({
     title: "",
@@ -26,22 +44,26 @@ function BookUpload() {
     category: "",
     quantity: "",
     price: "",
-    image: "",
+    image: null,
   });
+
+  const [openModal, setOpenModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(data);
+
+    setOpenModal(true);
+    setModalMessage("Submitting book data...");
+
     const formdata = new FormData();
-    formdata.append("title", data.title);
-    formdata.append("author", data.author);
-    formdata.append("category", data.category);
-    formdata.append("quantity", data.quantity);
-    formdata.append("price", data.price);
-    formdata.append("image", data.image);
-    console.log(formdata);
+    for (const key in data) {
+      formdata.append(key, data[key]);
+    }
+
     axios
       .request({
         method: "POST",
@@ -53,10 +75,21 @@ function BookUpload() {
         },
       })
       .then((res) => {
-        navigate("/bookupload");
+        setModalMessage("Book uploaded successfully!");
         console.log(res);
+        setTimeout(() => {
+          setOpenModal(false);
+          navigate("/bookupload");
+        }, 2000);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setModalMessage("Error uploading book. Please try again.");
+        console.log(err);
+      });
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -69,18 +102,19 @@ function BookUpload() {
         <h1 className="text-[#525256] text-[22px] font-medium mt-12 mb-7">
           Upload new Book
         </h1>
-        <SearchBook />
+        <SearchBook setParentData={setData} />
         <div className="flex justify-between w-[60%] mt-6 mb-5">
           <select
             className="w-[320px] text-[#656575] px-4 py-3 border border-[#DEDEDE] rounded-lg"
             onChange={(e) => {
               setData({ ...data, quantity: e.target.value });
             }}
+            value={data.quantity}
           >
-            <option>Book Quantity</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
+            <option value="">Book Quantity</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
           </select>
           <input
             type="text"
@@ -88,6 +122,7 @@ function BookUpload() {
             onChange={(e) => {
               setData({ ...data, price: e.target.value });
             }}
+            value={data.price}
             className="w-[320px] px-2 py-3 border border-[#DEDEDE] rounded-lg"
           />
         </div>
@@ -105,7 +140,10 @@ function BookUpload() {
           }}
         >
           Upload Book Cover
-          <VisuallyHiddenInput type="file" />
+          <VisuallyHiddenInput
+            type="file"
+            onChange={(e) => setData({ ...data, image: e.target.files[0] })}
+          />
         </Button>
         <Button
           variant="contained"
@@ -115,6 +153,31 @@ function BookUpload() {
           Submit
         </Button>
       </form>
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box sx={modalStyle}>
+          <img src={smile} alt="smile" />
+          <Typography
+            id="modal-modal-title"
+            sx={{ fontSize: "18px", fontWeight: 600, mt: "10px" }}
+          >
+            Congrats!
+          </Typography>
+          <Typography
+            id="modal-modal-description"
+            sx={{
+              color: "#00000080",
+              fontSize: "12px",
+              mt: "10px",
+              mb: "25px",
+            }}
+          >
+            {modalMessage}
+          </Typography>
+          <Button variant="contained" onClick={handleCloseModal}>
+            Ok
+          </Button>
+        </Box>
+      </Modal>
     </div>
   );
 }

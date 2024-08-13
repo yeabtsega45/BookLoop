@@ -20,7 +20,6 @@ const BookSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: true,
     },
     quantity: {
       type: String,
