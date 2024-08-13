@@ -9,8 +9,8 @@ import AdminOwners from "./pages/admin/AdminOwners";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import NotFound from "./pages/NotFound";
-import AuthChecker from "./utils/AuthCheker";
+import NotFound from "@/pages/NotFound";
+import CaslAuthChecker from "@/utils/CaslAuthChecker";
 
 function App() {
   const location = useLocation();
@@ -20,7 +20,7 @@ function App() {
 
   return (
     <>
-      <AuthChecker>
+      <CaslAuthChecker>
         <div className="relative w-full max-w-[100vw] h-full flex items-center m-auto bg-primary-background  gap-5">
           {canShowSidebar && (
             <div>
@@ -51,12 +51,12 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<OwnerDashboard />} />
               <Route path="/bookupload" element={<BookUpload />} />
-              <Route path="/admin/owners" element={<AdminOwners />} />
+              <Route path="/admin" element={<AdminOwners />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </div>
-      </AuthChecker>
+      </CaslAuthChecker>
     </>
   );
 }

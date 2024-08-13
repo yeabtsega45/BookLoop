@@ -36,6 +36,7 @@ const Sidebar = ({ toggleSidebar }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
+    console.log("token removed");
     navigate("/login");
   };
 

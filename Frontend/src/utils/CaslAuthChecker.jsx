@@ -29,14 +29,17 @@ const CaslAuthChecker = ({ children }) => {
           });
 
           if (response.status === 200) {
-            const userRole = response.data.role; // Assuming role comes in the response
-            const ability = defineAbilitiesFor(userRole);
+            const user = response.data.user; // Assuming the user object is returned in the response
+            const ability = defineAbilitiesFor(user.role);
 
             if (ability.can("manage", "all")) {
-              navigate("/admin");
-            } else {
-              setIsChecking(false);
+              if (location.pathname !== "/admin") {
+                navigate("/admin");
+              }
+            } else if (location.pathname === "/admin") {
+              navigate("/"); // Redirect non-admin users trying to access admin route
             }
+            setIsChecking(false);
           } else {
             localStorage.removeItem("token");
             navigate("/login");
