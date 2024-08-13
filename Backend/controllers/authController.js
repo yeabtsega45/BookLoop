@@ -63,4 +63,18 @@ authController.get("/verifytoken", verifyToken, async (req, res) => {
   }
 });
 
+// Check user
+authController.post("/checkuser", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      res.status(200).json({ exists: true });
+    } else {
+      res.status(404).json({ exists: false });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error checking user" });
+  }
+});
+
 module.exports = authController;
