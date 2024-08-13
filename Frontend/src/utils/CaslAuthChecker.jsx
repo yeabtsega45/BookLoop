@@ -29,15 +29,23 @@ const CaslAuthChecker = ({ children }) => {
           });
 
           if (response.status === 200) {
-            const user = response.data.user; // Assuming the user object is returned in the response
+            const user = response.data.user;
             const ability = defineAbilitiesFor(user.role);
 
             if (ability.can("manage", "all")) {
-              if (location.pathname !== "/admin") {
+              // Admin user
+              if (
+                location.pathname === "/login" ||
+                location.pathname === "/register"
+              ) {
                 navigate("/admin");
               }
-            } else if (location.pathname === "/admin") {
-              navigate("/"); // Redirect non-admin users trying to access admin route
+              // Allow admin to access all routes
+            } else {
+              // Non-admin user
+              if (location.pathname.startsWith("/admin")) {
+                navigate("/"); // Redirect non-admin users trying to access admin routes
+              }
             }
             setIsChecking(false);
           } else {

@@ -26,7 +26,22 @@ function Register() {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("email", res.data.email);
-        navigate("/");
+
+        // Check if the response includes user role information
+        if (res.data.role) {
+          localStorage.setItem("userRole", res.data.role);
+
+          // Navigate based on user role
+          if (res.data.role === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+        } else {
+          // If role is not provided, navigate to home as a fallback
+          navigate("/");
+        }
+
         console.log(res.data);
       })
       .catch((err) => {
