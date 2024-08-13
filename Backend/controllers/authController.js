@@ -20,11 +20,15 @@ authController.post("/register", async (req, res) => {
     });
 
     const { password, ...others } = newUser._doc;
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "3d",
-    });
+    const token = jwt.sign(
+      { id: newUser._id, role: newUser.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "3d",
+      }
+    );
 
-    return res.status(201).json({ others, token });
+    return res.status(201).json({ user: others, token });
   } catch (error) {
     return res.status(500).json(error.message);
   }
@@ -43,11 +47,15 @@ authController.post("/login", async (req, res) => {
     }
 
     const { password, ...others } = user._doc;
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "3d",
-    });
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "3d",
+      }
+    );
 
-    return res.status(200).json({ others, token });
+    return res.status(200).json({ user: others, token });
   } catch (error) {
     return res.status(500).json({ error: "Wrong credentials. Try again!" });
   }
@@ -56,8 +64,12 @@ authController.post("/login", async (req, res) => {
 // Check authorization
 authController.get("/verifytoken", verifyToken, async (req, res) => {
   try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
     // If the middleware passes, the token is valid
-    res.status(200).json({ message: "Token is valid" });
+    res.status(200).json({ message: "Token is valid", user });
   } catch (error) {
     res.status(401).json({ message: "Invalid token" });
   }

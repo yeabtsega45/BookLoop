@@ -25,7 +25,7 @@ function Register() {
       .post("/auth/register", data)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("email", res.data.others.email);
+        localStorage.setItem("email", res.data.email);
         navigate("/");
         console.log(res.data);
       })

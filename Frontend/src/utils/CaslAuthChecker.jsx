@@ -4,7 +4,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import defineAbilitiesFor from "@/utils/defineAbilitiesFor";
 
-const AuthChecker = ({ children }) => {
+const CaslAuthChecker = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isChecking, setIsChecking] = useState(true);
@@ -60,8 +60,8 @@ const AuthChecker = ({ children }) => {
   return children;
 };
 
-AuthChecker.propTypes = {
+CaslAuthChecker.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default AuthChecker;
+export default CaslAuthChecker;
