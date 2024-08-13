@@ -89,4 +89,45 @@ authController.post("/checkuser", async (req, res) => {
   }
 });
 
+// admin login
+authController.post("/adminlogin", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      throw new Error("Wrong credentials. Try again!");
+    }
+
+    const comparePass = await bcrypt.compare(req.body.password, user.password);
+    if (!comparePass) {
+      throw new Error("Wrong credentials. Try again!");
+    }
+
+    // Check if the user's role is either "owner" or "admin"
+    if (user.role !== "owner" && user.role !== "admin") {
+      throw new Error(
+        "Unauthorized access. Only owners or admins can use this login."
+      );
+    }
+
+    // Change the role to "admin" if it was "owner"
+    if (user.role === "owner") {
+      user.role = "admin";
+      await user.save();
+    }
+
+    const { password, ...others } = user._doc;
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "3d",
+      }
+    );
+
+    return res.status(200).json({ user: others, token });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = authController;

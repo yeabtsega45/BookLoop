@@ -8,10 +8,11 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+function AdminLogin() {
   const [data, setData] = useState({
     email: "",
     password: "",
+    role: "admin",
   });
   const [error, setError] = useState("");
 
@@ -20,27 +21,13 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/auth/login", data)
+      .post("/auth/adminlogin", data)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("email", res.data.email);
-
-        // Check if the response includes user role information
-        if (res.data.role) {
-          localStorage.setItem("userRole", res.data.role);
-
-          // Navigate based on user role
-          if (res.data.role === "admin") {
-            navigate("/admin");
-          } else {
-            navigate("/");
-          }
-        } else {
-          // If role is not provided, navigate to home as a fallback
-          navigate("/");
-        }
-
-        console.log(res.data);
+        localStorage.setItem("userRole", res.data.role);
+        navigate("/admin");
+        console.log(data);
       })
       .catch((err) => {
         setError(err.response?.data?.error || err.message);
@@ -62,7 +49,7 @@ function Login() {
           <h2 className="text-3xl pl-2">Book Rent</h2>
         </div>
         <p className="text-red-600 font-semibold">{error}</p>
-        <h3 className="text-2xl pb-2">Login</h3>
+        <h3 className="text-2xl pb-2">Login as Admin</h3>
         <hr className="pb-6" />
         <TextField
           id="outlined-basic"
@@ -105,4 +92,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminLogin;

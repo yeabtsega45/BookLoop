@@ -11,10 +11,13 @@ import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import NotFound from "@/pages/NotFound";
 import CaslAuthChecker from "@/utils/CaslAuthChecker";
+import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
   const location = useLocation();
-  const canShowSidebar = !["/register", "/login"].includes(location.pathname);
+  const canShowSidebar = !["/register", "/login", "/login/admin"].includes(
+    location.pathname
+  );
   const [showSidebar, toggleSidebar] = useState(canShowSidebar);
   const theme = useTheme();
 
@@ -51,6 +54,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<OwnerDashboard />} />
               <Route path="/bookupload" element={<BookUpload />} />
+              <Route path="/login/admin" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminOwners />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -11,7 +11,11 @@ const CaslAuthChecker = ({ children }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (location.pathname === "/login" || location.pathname === "/register") {
+      if (
+        location.pathname === "/login" ||
+        location.pathname === "/register" ||
+        location.pathname === "/login/admin"
+      ) {
         setIsChecking(false);
         return;
       }
@@ -36,7 +40,8 @@ const CaslAuthChecker = ({ children }) => {
               // Admin user
               if (
                 location.pathname === "/login" ||
-                location.pathname === "/register"
+                location.pathname === "/register" ||
+                location.pathname === "/login/admin"
               ) {
                 navigate("/admin");
               }

@@ -84,7 +84,7 @@ const Sidebar = ({ toggleSidebar }) => {
     {
       text: "Login as Admin",
       icon: <AccountCircleOutlinedIcon />,
-      route: "/login",
+      route: "/login/admin",
     },
   ];
 

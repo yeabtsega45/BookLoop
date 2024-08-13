@@ -45,7 +45,7 @@ function Register() {
         console.log(res.data);
       })
       .catch((err) => {
-        setError(err.message);
+        setError(err.response?.data?.error || err.message);
         console.log(err);
       });
   };
