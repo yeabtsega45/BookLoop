@@ -40,6 +40,7 @@ const BookStatus = () => {
             bookName: book.title,
             status: book.status,
             price: book.price,
+            _id: book._id,
           }));
           setData(transformedData);
           setLoading(false);

@@ -37,6 +37,7 @@ function ListOfOwners() {
             upload: user.upload,
             status: user.status,
             location: user.location,
+            _id: user._id,
           }));
           setData(transformedData);
           setLoading(false);
@@ -55,7 +56,7 @@ function ListOfOwners() {
   // delete user
   const handleDelete = (id) => {
     axios
-      .delete("/user/delete/" + id, {
+      .delete("/auth/delete/" + id, {
         headers: {
           Authorization: "Bearer " + token,
         },

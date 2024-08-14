@@ -7,6 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import smile from "@/assets/smile 1.png";
+import { useNavigate } from "react-router-dom";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -51,6 +52,7 @@ function BookUpload() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,6 +80,11 @@ function BookUpload() {
         setModalMessage("Book uploaded successfully!");
         setIsSuccess(true);
 
+        // setTimeout(() => {
+        //   navigate("/");
+        //   window.location.reload();
+        // }, 3000);
+
         console.log(res);
       })
       .catch((err) => {
@@ -89,6 +96,8 @@ function BookUpload() {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    navigate("/");
+    window.location.reload();
   };
 
   return (

@@ -21,7 +21,7 @@ const BookSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["fiction", "self help", "business", "Not Provided"],
+      enum: ["fiction", "self help", "business", "Not Provided", ""],
       default: "Not Provided",
     },
     quantity: {
