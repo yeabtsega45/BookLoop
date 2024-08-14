@@ -74,6 +74,31 @@ const BookStatus = () => {
       .catch((err) => console.log(err));
   };
 
+  // Edit book
+  const handleSaveRow = async ({ exitEditingMode, row, values }) => {
+    try {
+      const id = row.original._id; // Get the id from the original row data
+      const response = await axios.put(`/book/update/${id}`, values, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setData((prev) =>
+          prev.map((prevData) =>
+            prevData._id === id ? { ...prevData, ...values } : prevData
+          )
+        );
+        exitEditingMode();
+      } else {
+        console.error("Failed to update book");
+      }
+    } catch (error) {
+      console.error("Error updating book:", error);
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -101,7 +126,7 @@ const BookStatus = () => {
           sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: { width: "20px", display: "flex", justifyContent: "center" },
+          sx: { width: "20px" },
         },
         size: 100,
       },
@@ -145,12 +170,10 @@ const BookStatus = () => {
         muiTableBodyCellProps: {
           sx: {
             width: "20px",
-            display: "flex",
-            justifyContent: "center",
             margin: "auto",
           },
         },
-        size: 50,
+        size: 100,
       },
       {
         id: "actions",
@@ -174,14 +197,6 @@ const BookStatus = () => {
     ],
     []
   );
-
-  // Function to set the state to edited data
-  const handleSaveRow = ({ exitEditingMode, row, values }) => {
-    setData((prev) =>
-      prev.map((item, index) => (index === row.index ? values : item))
-    );
-    exitEditingMode();
-  };
 
   // Title displayed on the top of the table
   const renderTopToolbarCustomActions = () => {

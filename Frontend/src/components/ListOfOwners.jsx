@@ -112,7 +112,7 @@ function ListOfOwners() {
           sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: { width: "20px", display: "flex", justifyContent: "center" },
+          sx: { width: "20px" },
         },
         size: 100,
       },
