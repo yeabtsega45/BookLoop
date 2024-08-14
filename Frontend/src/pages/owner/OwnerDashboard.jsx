@@ -5,7 +5,7 @@ import EarningSummary from "@/components/EarningSummary";
 
 function OwnerDashboard() {
   return (
-    <div className="flex flex-col justify-between items-center w-full h-full m-auto pt-4">
+    <div className="flex flex-col justify-between items-center w-full h-full m-auto pt-4 mb-7">
       <Header role="Owner" page="Dashboard" />
       <div className="flex justify-center w-[1146px] h-[91.1%] gap-5 mt-5">
         <Statistics />

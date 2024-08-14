@@ -3,19 +3,11 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Radio,
-  Typography,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import { Box, CircularProgress, Radio, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import axios from "axios";
 
-const BookStatus = () => {
+const BookStatusAdmin = () => {
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -26,7 +18,7 @@ const BookStatus = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/book/user", {
+      .get("/book/getall", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,10 +26,11 @@ const BookStatus = () => {
       .then((res) => {
         if (res.status === 200) {
           // Transform the data to match your table structure
+          console.log(res.data);
           const transformedData = res.data.map((book, index) => ({
             no: index + 1,
             bookNo: book.bookNo,
-            bookName: book.title,
+            owner: book.currentOwner?.email || "No owner",
             status: book.status,
             price: book.price,
           }));
@@ -54,24 +47,6 @@ const BookStatus = () => {
         setLoading(false);
       });
   }, []);
-
-  // delete book
-  const handleDelete = (id) => {
-    axios
-      .delete("/book/delete/" + id, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setData((prevData) => prevData.filter((book) => book._id !== id));
-        } else {
-          alert("Error");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
 
   const columns = useMemo(
     () => [
@@ -105,8 +80,8 @@ const BookStatus = () => {
         size: 100,
       },
       {
-        accessorKey: "bookName",
-        header: "Book Name",
+        accessorKey: "owner",
+        header: "Owner",
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
@@ -150,25 +125,6 @@ const BookStatus = () => {
           },
         },
         size: 50,
-      },
-      {
-        id: "actions",
-        header: "Actions",
-        // Display edit & delete icons on actions column
-        Cell: ({ row, table }) => (
-          <div className="!p-0 !m-0 ">
-            <IconButton
-              onClick={() => {
-                table.setEditingRow(row);
-              }}
-            >
-              <EditIcon sx={{ color: "black" }} />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(row.original._id)}>
-              <DeleteIcon sx={{ color: "red" }} />
-            </IconButton>
-          </div>
-        ),
       },
     ],
     []
@@ -247,14 +203,14 @@ const BookStatus = () => {
   );
 };
 
-BookStatus.propTypes = {
+BookStatusAdmin.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       no: PropTypes.number.isRequired,
-      bookNo: PropTypes.number.isRequired,
-      bookName: PropTypes.string.isRequired,
+      bookNo: PropTypes.string.isRequired,
+      owner: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
+      price: PropTypes.string.isRequired,
     })
   ),
   row: PropTypes.object.isRequired,
@@ -265,4 +221,4 @@ BookStatus.propTypes = {
   "table.setEditingRow": PropTypes.func.isRequired,
 };
 
-export default BookStatus;
+export default BookStatusAdmin;

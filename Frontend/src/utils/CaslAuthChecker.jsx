@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import PropTypes from "prop-types";
 import defineAbilitiesFor from "@/utils/defineAbilitiesFor";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const CaslAuthChecker = ({ children }) => {
   const navigate = useNavigate();
@@ -70,7 +71,15 @@ const CaslAuthChecker = ({ children }) => {
   }, [navigate, location]);
 
   if (isChecking) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col justify-center items-center h-[100vh]">
+        <CircularProgress />
+        <p className="text-gray-500 mt-6">
+          Please wait a moment...This might be a result of the backend being
+          deployed on Render free plan.
+        </p>
+      </div>
+    );
   }
 
   return children;

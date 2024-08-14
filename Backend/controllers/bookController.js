@@ -20,13 +20,24 @@ const upload = multer({
 // get all books
 bookController.get("/getall", async (req, res) => {
   try {
-    const books = await Book.find({});
+    const books = await Book.find({}).populate("currentOwner", "email");
 
     // console.log(books);
 
     return res.status(200).json(books);
   } catch (error) {
     console.error(error);
+  }
+});
+
+// get all books of the current user
+bookController.get("/user", verifyToken, async (req, res) => {
+  try {
+    const userBooks = await Book.find({ currentOwner: req.user.id });
+    return res.status(200).json(userBooks);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 

@@ -8,8 +8,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://localhost:5000";
-axios.defaults.baseURL = "https://bookrent-api.onrender.com";
+axios.defaults.baseURL = "http://localhost:5000";
+// axios.defaults.baseURL = "https://bookrent-api.onrender.com";
 axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.withCredentials = true;
 

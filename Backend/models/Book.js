@@ -9,28 +9,28 @@ const BookSchema = new mongoose.Schema(
     },
     bookNo: {
       type: String,
+      default: "6465",
     },
     title: {
       type: String,
-      required: true,
     },
     author: {
       type: String,
-      required: true,
     },
     category: {
       type: String,
+      enum: ["fiction", "self help", "business"],
     },
     quantity: {
       type: String,
-      required: true,
     },
     status: {
       type: String,
+      enum: ["Free", "Rented"],
+      default: "Free",
     },
     price: {
       type: String,
-      required: true,
     },
     image: {
       type: String,
