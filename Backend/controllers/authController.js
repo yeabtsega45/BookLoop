@@ -130,4 +130,24 @@ authController.post("/adminlogin", async (req, res) => {
   }
 });
 
+// Get all users
+authController.get("/getall", verifyToken, async (req, res) => {
+  try {
+    // Check if the requesting user is an admin
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied. Admin only." });
+    }
+
+    // Fetch all users, excluding the password field
+    const users = await User.find().select("-password");
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return res
+      .status(500)
+      .json({ message: "Error fetching users", error: error.message });
+  }
+});
+
 module.exports = authController;

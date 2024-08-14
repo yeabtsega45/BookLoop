@@ -24,6 +24,15 @@ const UserSchema = new mongoose.Schema(
       enum: ["owner", "admin"],
       default: "owner",
     },
+    upload: {
+      type: String,
+      default: "0",
+    },
+    status: {
+      type: String,
+      enum: ["Active", "Inactive"],
+      default: "Active",
+    },
   },
   { timestamps: true }
 );

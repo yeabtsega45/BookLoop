@@ -22,7 +22,7 @@ const BookStatus = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
 
-  //get all books
+  //get user's books
   useEffect(() => {
     setLoading(true);
     axios

@@ -1,81 +1,74 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PropTypes from "prop-types";
 import Switch from "@mui/material/Switch";
 import DoneIcon from "@mui/icons-material/Done";
+import axios from "axios";
 
 function ListOfOwners() {
-  const [data, setData] = useState([
-    {
-      no: 1,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Active",
-    },
-    {
-      no: 2,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Active",
-    },
-    {
-      no: 3,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Active",
-    },
-    {
-      no: 4,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Active",
-    },
-    {
-      no: 5,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Active",
-    },
-    {
-      no: 6,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Active",
-    },
-    {
-      no: 7,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Inactive",
-    },
-    {
-      no: 8,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Inactive",
-    },
-    {
-      no: 9,
-      owner: "Nardos T",
-      upload: "15 Books",
-      location: "Addis Ababa",
-      status: "Inactive",
-    },
-  ]);
+  const [data, setData] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem("token");
+
+  //get all books
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("/auth/getall", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          // Transform the data to match your table structure
+          console.log(res.data);
+          const transformedData = res.data.map((user, index) => ({
+            no: index + 1,
+            owner: user.email,
+            upload: user.upload,
+            status: user.status,
+            location: user.location,
+          }));
+          setData(transformedData);
+          setLoading(false);
+        } else {
+          setError("Error while fetching data.");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Error while fetching data.");
+        setLoading(false);
+      });
+  }, []);
+
+  // delete user
+  const handleDelete = (id) => {
+    axios
+      .delete("/user/delete/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setData((prevData) => prevData.filter((user) => user._id !== id));
+        } else {
+          alert("Error");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const columns = useMemo(
     () => [
@@ -173,13 +166,7 @@ function ListOfOwners() {
             >
               <VisibilityIcon sx={{ color: "black" }} />
             </IconButton>
-            <IconButton
-              onClick={() => {
-                setData((prev) =>
-                  prev.filter((_, index) => index !== row.index)
-                );
-              }}
-            >
+            <IconButton onClick={() => handleDelete(row.original._id)}>
               <DeleteIcon sx={{ color: "red" }} />
             </IconButton>
           </div>
@@ -239,6 +226,18 @@ function ListOfOwners() {
       },
     },
   });
+
+  if (loading) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="text-red-600">{error}</p>;
+  }
 
   return <MaterialReactTable table={table} />;
 }

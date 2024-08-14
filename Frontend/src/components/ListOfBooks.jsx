@@ -3,11 +3,15 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, CircularProgress, Radio, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import PropTypes from "prop-types";
+import Switch from "@mui/material/Switch";
+import DoneIcon from "@mui/icons-material/Done";
 import axios from "axios";
 
-const BookStatusAdmin = () => {
+function ListOfBooks() {
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -18,7 +22,7 @@ const BookStatusAdmin = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/book/getall", {
+      .get("/auth/getall", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,12 +31,12 @@ const BookStatusAdmin = () => {
         if (res.status === 200) {
           // Transform the data to match your table structure
           console.log(res.data);
-          const transformedData = res.data.map((book, index) => ({
+          const transformedData = res.data.map((user, index) => ({
             no: index + 1,
-            bookNo: book.bookNo,
-            owner: book.currentOwner?.email || "No owner",
-            status: book.status,
-            price: book.price,
+            owner: user.email,
+            upload: user.upload,
+            status: user.status,
+            location: user.location,
           }));
           setData(transformedData);
           setLoading(false);
@@ -47,6 +51,24 @@ const BookStatusAdmin = () => {
         setLoading(false);
       });
   }, []);
+
+  // delete user
+  const handleDelete = (id) => {
+    axios
+      .delete("/user/delete/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setData((prevData) => prevData.filter((user) => user._id !== id));
+        } else {
+          alert("Error");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const columns = useMemo(
     () => [
@@ -66,20 +88,6 @@ const BookStatusAdmin = () => {
         size: 50,
       },
       {
-        accessorKey: "bookNo",
-        header: "Book no",
-        muiTableBodyCellEditTextFieldProps: {
-          variant: "standard",
-        },
-        muiTableHeadCellProps: {
-          sx: { width: "10px" },
-        },
-        muiTableBodyCellProps: {
-          sx: { width: "20px", display: "flex", justifyContent: "center" },
-        },
-        size: 100,
-      },
-      {
         accessorKey: "owner",
         header: "Owner",
         muiTableBodyCellEditTextFieldProps: {
@@ -94,22 +102,8 @@ const BookStatusAdmin = () => {
         size: 180,
       },
       {
-        accessorKey: "status",
-        header: "Status",
-        // Display Radio button on status column
-        Cell: ({ row }) => (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Radio
-              color={row.original.status === "Rented" ? "error" : "primary"}
-              checked={true}
-            />
-            <Typography>{row.original.status}</Typography>
-          </Box>
-        ),
-      },
-      {
-        accessorKey: "price",
-        header: "Price",
+        accessorKey: "upload",
+        header: "Upload",
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
@@ -117,14 +111,66 @@ const BookStatusAdmin = () => {
           sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: {
-            width: "20px",
-            display: "flex",
-            justifyContent: "center",
-            margin: "auto",
-          },
+          sx: { width: "20px", display: "flex", justifyContent: "center" },
         },
-        size: 50,
+        size: 100,
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        // Display switch on status column
+        Cell: ({ row }) => (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color: row.original.status === "Active" ? "#008000" : "default",
+              backgroundColor: "#0080001A",
+              px: "15px",
+              borderRadius: "16px",
+            }}
+          >
+            <DoneIcon />
+            <Typography>{row.original.status}</Typography>
+            <Switch
+              defaultChecked
+              color={row.original.status === "Active" ? "success" : "default"}
+            />
+          </Box>
+        ),
+      },
+      {
+        accessorKey: "location",
+        header: "Location",
+        muiTableBodyCellEditTextFieldProps: {
+          variant: "standard",
+        },
+        muiTableHeadCellProps: {
+          sx: { width: "10px" },
+        },
+        muiTableBodyCellProps: {
+          sx: { width: "20px" },
+        },
+        size: 180,
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        // Display view & delete icons on actions column
+        Cell: ({ row, table }) => (
+          <div className="!p-0 !m-0 ">
+            <IconButton
+              onClick={() => {
+                table.setEditingRow(row);
+              }}
+            >
+              <VisibilityIcon sx={{ color: "black" }} />
+            </IconButton>
+            <IconButton onClick={() => handleDelete(row.original._id)}>
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+          </div>
+        ),
       },
     ],
     []
@@ -146,7 +192,7 @@ const BookStatusAdmin = () => {
         style={{ padding: "12px 28px", fontWeight: 600 }}
         className="!pt-[74px]"
       >
-        Live Book Status
+        List of Books
       </Typography>
     );
   };
@@ -156,7 +202,7 @@ const BookStatusAdmin = () => {
     data,
     editDisplayMode: "modal", // modal display
     onEditingRowSave: handleSaveRow, // editing modal onClick
-    muiTableProps: { sx: { height: "90%", padding: "20px", width: "100%" } },
+    muiTableProps: { sx: { width: "100%", height: "90%", padding: "20px" } }, // Table styling
     renderTopToolbarCustomActions, // Add title on top of the table
     positionToolbarAlertBanner: "bottom", // Add title on top of the table
     enableColumnActions: false, // Remove header options
@@ -171,10 +217,11 @@ const BookStatusAdmin = () => {
         width: "20px",
       },
     },
-    // Table styling
+
     muiTablePaperProps: {
       sx: {
-        width: "100%",
+        width: "1143px",
+        my: "20px",
         borderRadius: "20px",
       },
     },
@@ -192,21 +239,17 @@ const BookStatusAdmin = () => {
     return <p className="text-red-600">{error}</p>;
   }
 
-  return (
-    <div className="bg-primary-contrast flex items-center w-full h-full rounded-2xl">
-      <MaterialReactTable table={table} />
-    </div>
-  );
-};
+  return <MaterialReactTable table={table} />;
+}
 
-BookStatusAdmin.propTypes = {
+ListOfBooks.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       no: PropTypes.number.isRequired,
-      bookNo: PropTypes.string.isRequired,
       owner: PropTypes.string.isRequired,
+      upload: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
-      price: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
     })
   ),
   row: PropTypes.object.isRequired,
@@ -217,4 +260,4 @@ BookStatusAdmin.propTypes = {
   "table.setEditingRow": PropTypes.func.isRequired,
 };
 
-export default BookStatusAdmin;
+export default ListOfBooks;
