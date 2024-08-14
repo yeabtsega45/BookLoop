@@ -13,16 +13,20 @@ const BookSchema = new mongoose.Schema(
     },
     title: {
       type: String,
+      default: "Not Provided",
     },
     author: {
       type: String,
+      default: "Not Provided",
     },
     category: {
       type: String,
-      enum: ["fiction", "self help", "business"],
+      enum: ["fiction", "self help", "business", "Not Provided"],
+      default: "Not Provided",
     },
     quantity: {
       type: String,
+      default: "1",
     },
     status: {
       type: String,
@@ -31,6 +35,7 @@ const BookSchema = new mongoose.Schema(
     },
     price: {
       type: String,
+      default: "Not Provided",
     },
     image: {
       type: String,

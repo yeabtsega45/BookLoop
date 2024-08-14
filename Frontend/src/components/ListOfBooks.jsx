@@ -3,9 +3,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import Switch from "@mui/material/Switch";
 import DoneIcon from "@mui/icons-material/Done";
@@ -22,7 +20,7 @@ function ListOfBooks() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/auth/getall", {
+      .get("/book/getall", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -31,12 +29,13 @@ function ListOfBooks() {
         if (res.status === 200) {
           // Transform the data to match your table structure
           console.log(res.data);
-          const transformedData = res.data.map((user, index) => ({
+          const transformedData = res.data.map((book, index) => ({
             no: index + 1,
-            owner: user.email,
-            upload: user.upload,
-            status: user.status,
-            location: user.location,
+            author: book.author || "Not provided",
+            owner: book.currentOwner?.email || "No owner",
+            category: book.category || "Not provided",
+            bookName: book.title || "Not provided",
+            status: book.currentOwner?.status || "Inactive",
           }));
           setData(transformedData);
           setLoading(false);
@@ -51,24 +50,6 @@ function ListOfBooks() {
         setLoading(false);
       });
   }, []);
-
-  // delete user
-  const handleDelete = (id) => {
-    axios
-      .delete("/user/delete/" + id, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setData((prevData) => prevData.filter((user) => user._id !== id));
-        } else {
-          alert("Error");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
 
   const columns = useMemo(
     () => [
@@ -88,6 +69,20 @@ function ListOfBooks() {
         size: 50,
       },
       {
+        accessorKey: "author",
+        header: "Author",
+        muiTableBodyCellEditTextFieldProps: {
+          variant: "standard",
+        },
+        muiTableHeadCellProps: {
+          sx: { width: "10px" },
+        },
+        muiTableBodyCellProps: {
+          sx: { width: "20px" },
+        },
+        size: 180,
+      },
+      {
         accessorKey: "owner",
         header: "Owner",
         muiTableBodyCellEditTextFieldProps: {
@@ -102,8 +97,8 @@ function ListOfBooks() {
         size: 180,
       },
       {
-        accessorKey: "upload",
-        header: "Upload",
+        accessorKey: "category",
+        header: "Category",
         muiTableBodyCellEditTextFieldProps: {
           variant: "standard",
         },
@@ -111,9 +106,23 @@ function ListOfBooks() {
           sx: { width: "10px" },
         },
         muiTableBodyCellProps: {
-          sx: { width: "20px", display: "flex", justifyContent: "center" },
+          sx: { width: "20px" },
         },
-        size: 100,
+        size: 180,
+      },
+      {
+        accessorKey: "bookName",
+        header: "Book Name",
+        muiTableBodyCellEditTextFieldProps: {
+          variant: "standard",
+        },
+        muiTableHeadCellProps: {
+          sx: { width: "10px" },
+        },
+        muiTableBodyCellProps: {
+          sx: { width: "20px" },
+        },
+        size: 180,
       },
       {
         accessorKey: "status",
@@ -137,39 +146,6 @@ function ListOfBooks() {
               color={row.original.status === "Active" ? "success" : "default"}
             />
           </Box>
-        ),
-      },
-      {
-        accessorKey: "location",
-        header: "Location",
-        muiTableBodyCellEditTextFieldProps: {
-          variant: "standard",
-        },
-        muiTableHeadCellProps: {
-          sx: { width: "10px" },
-        },
-        muiTableBodyCellProps: {
-          sx: { width: "20px" },
-        },
-        size: 180,
-      },
-      {
-        id: "actions",
-        header: "Actions",
-        // Display view & delete icons on actions column
-        Cell: ({ row, table }) => (
-          <div className="!p-0 !m-0 ">
-            <IconButton
-              onClick={() => {
-                table.setEditingRow(row);
-              }}
-            >
-              <VisibilityIcon sx={{ color: "black" }} />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(row.original._id)}>
-              <DeleteIcon sx={{ color: "red" }} />
-            </IconButton>
-          </div>
         ),
       },
     ],
@@ -246,10 +222,11 @@ ListOfBooks.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       no: PropTypes.number.isRequired,
+      author: PropTypes.string.isRequired,
       owner: PropTypes.string.isRequired,
-      upload: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      bookName: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
     })
   ),
   row: PropTypes.object.isRequired,

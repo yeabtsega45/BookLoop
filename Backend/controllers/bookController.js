@@ -20,7 +20,7 @@ const upload = multer({
 // get all books
 bookController.get("/getall", async (req, res) => {
   try {
-    const books = await Book.find({}).populate("currentOwner", "email");
+    const books = await Book.find({}).populate("currentOwner", "email status");
 
     // console.log(books);
 
