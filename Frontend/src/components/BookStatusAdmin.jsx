@@ -48,6 +48,16 @@ const BookStatusAdmin = () => {
       });
   }, []);
 
+  // Changes Status
+  const handleStatusChange = (index) => {
+    setData((prevData) => {
+      const newData = [...prevData];
+      newData[index].status =
+        newData[index].status === "Free" ? "Rented" : "Free";
+      return newData;
+    });
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -98,7 +108,10 @@ const BookStatusAdmin = () => {
         header: "Status",
         // Display Radio button on status column
         Cell: ({ row }) => (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+            onClick={() => handleStatusChange(row.index)}
+          >
             <Radio
               color={row.original.status === "Rented" ? "error" : "primary"}
               checked={true}

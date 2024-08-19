@@ -51,6 +51,18 @@ function ListOfBooks() {
       });
   }, []);
 
+  // Switch Status state
+  const handleStatusToggle = (index) => {
+    setData((prevData) => {
+      const newData = [...prevData];
+      newData[index] = {
+        ...newData[index],
+        status: newData[index].status === "Active" ? "Inactive" : "Active",
+      };
+      return newData;
+    });
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -142,7 +154,8 @@ function ListOfBooks() {
             <DoneIcon />
             <Typography>{row.original.status}</Typography>
             <Switch
-              defaultChecked
+              checked={row.original.status === "Active"}
+              onChange={() => handleStatusToggle(row.index)}
               color={row.original.status === "Active" ? "success" : "default"}
             />
           </Box>

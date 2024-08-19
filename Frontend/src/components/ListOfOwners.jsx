@@ -3,7 +3,16 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  CircularProgress,
+  IconButton,
+  Modal,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PropTypes from "prop-types";
@@ -17,6 +26,13 @@ function ListOfOwners() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
+
+  // modal states
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  const [openNotification, setOpenNotification] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
 
   //get all books
   useEffect(() => {
@@ -68,7 +84,38 @@ function ListOfOwners() {
           alert("Error");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setOpenNotification(true);
+        setDeleteError(err.response?.data?.message);
+      });
+  };
+
+  // Switch Status state
+  const handleStatusToggle = (index) => {
+    setData((prevData) => {
+      const newData = [...prevData];
+      newData[index] = {
+        ...newData[index],
+        status: newData[index].status === "Active" ? "Inactive" : "Active",
+      };
+      return newData;
+    });
+  };
+
+  // Eye icon on click
+  const handleViewDetails = (row) => {
+    setSelectedRow(row.original);
+    setViewModalOpen(true);
+  };
+
+  // Close Notification
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenNotification(false);
   };
 
   const columns = useMemo(
@@ -134,7 +181,8 @@ function ListOfOwners() {
             <DoneIcon />
             <Typography>{row.original.status}</Typography>
             <Switch
-              defaultChecked
+              checked={row.original.status === "Active"}
+              onChange={() => handleStatusToggle(row.index)}
               color={row.original.status === "Active" ? "success" : "default"}
             />
           </Box>
@@ -158,13 +206,9 @@ function ListOfOwners() {
         id: "actions",
         header: "Actions",
         // Display view & delete icons on actions column
-        Cell: ({ row, table }) => (
+        Cell: ({ row }) => (
           <div className="!p-0 !m-0 ">
-            <IconButton
-              onClick={() => {
-                table.setEditingRow(row);
-              }}
-            >
+            <IconButton onClick={() => handleViewDetails(row)}>
               <VisibilityIcon sx={{ color: "black" }} />
             </IconButton>
             <IconButton onClick={() => handleDelete(row.original._id)}>
@@ -240,7 +284,95 @@ function ListOfOwners() {
     return <p className="text-red-600">{error}</p>;
   }
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <>
+      {/* Notification */}
+      <Snackbar
+        open={openNotification}
+        onClose={handleClose}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {deleteError}
+        </Alert>
+      </Snackbar>
+
+      {/* The whole table */}
+      <MaterialReactTable table={table} />
+
+      {/* Eye icon on click modal */}
+      <Modal
+        open={viewModalOpen}
+        onClose={() => setViewModalOpen(false)}
+        aria-labelledby="view-modal-title"
+        aria-describedby="view-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          {selectedRow && (
+            <Box id="view-modal-description" sx={{ mt: 2 }}>
+              <TextField
+                label="Owner"
+                value={selectedRow.owner}
+                fullWidth
+                variant="outlined"
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Upload"
+                value={selectedRow.upload}
+                fullWidth
+                variant="outlined"
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Status"
+                value={selectedRow.status}
+                fullWidth
+                variant="outlined"
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Location"
+                value={selectedRow.location}
+                fullWidth
+                variant="outlined"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Box>
+          )}
+        </Box>
+      </Modal>
+    </>
+  );
 }
 
 ListOfOwners.propTypes = {
