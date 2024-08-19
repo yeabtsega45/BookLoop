@@ -6,6 +6,7 @@ import {
 import { Box, CircularProgress, Radio, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import axios from "axios";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const BookStatusAdmin = () => {
   const [data, setData] = useState([]);
@@ -58,6 +59,15 @@ const BookStatusAdmin = () => {
     });
   };
 
+  // Extract Name from Email
+  const extractNameFromEmail = (email) => {
+    if (!email || email === "No owner") return email;
+    // Split name before @ symbol
+    const name = email.split("@")[0];
+    // Change first letter to capital
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -92,16 +102,15 @@ const BookStatusAdmin = () => {
       {
         accessorKey: "owner",
         header: "Owner",
-        muiTableBodyCellEditTextFieldProps: {
-          variant: "standard",
-        },
-        muiTableHeadCellProps: {
-          sx: { width: "10px" },
-        },
-        muiTableBodyCellProps: {
-          sx: { width: "20px" },
-        },
-        size: 180,
+        // Display avatar & owner name on owner column
+        Cell: ({ row }) => (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <AccountCircleIcon sx={{ color: "grey" }} />
+            <Typography sx={{ ml: 1 }}>
+              {extractNameFromEmail(row.original.owner)}
+            </Typography>
+          </Box>
+        ),
       },
       {
         accessorKey: "status",

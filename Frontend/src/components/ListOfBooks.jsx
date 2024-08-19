@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Switch from "@mui/material/Switch";
 import DoneIcon from "@mui/icons-material/Done";
 import axios from "axios";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function ListOfBooks() {
   const [data, setData] = useState([]);
@@ -63,6 +64,15 @@ function ListOfBooks() {
     });
   };
 
+  // Extract Name from Email
+  const extractNameFromEmail = (email) => {
+    if (!email || email === "No owner") return email;
+    // Split name before @ symbol
+    const name = email.split("@")[0];
+    // Change first letter to capital
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -97,16 +107,15 @@ function ListOfBooks() {
       {
         accessorKey: "owner",
         header: "Owner",
-        muiTableBodyCellEditTextFieldProps: {
-          variant: "standard",
-        },
-        muiTableHeadCellProps: {
-          sx: { width: "10px" },
-        },
-        muiTableBodyCellProps: {
-          sx: { width: "20px" },
-        },
-        size: 180,
+        // Display avatar & owner name on owner column
+        Cell: ({ row }) => (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <AccountCircleIcon sx={{ color: "grey" }} />
+            <Typography sx={{ ml: 1 }}>
+              {extractNameFromEmail(row.original.owner)}
+            </Typography>
+          </Box>
+        ),
       },
       {
         accessorKey: "category",

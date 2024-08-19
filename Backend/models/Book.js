@@ -13,7 +13,7 @@ const BookSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      default: "Not Provided",
+      required: true,
     },
     author: {
       type: String,

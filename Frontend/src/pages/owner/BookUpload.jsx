@@ -88,7 +88,7 @@ function BookUpload() {
         console.log(res);
       })
       .catch((err) => {
-        setModalMessage(`Error uploading book: ${err.message}`);
+        setModalMessage(`Error uploading book: ${err.response.data.message}`);
         setIsSuccess(false);
         console.log(err);
       });
