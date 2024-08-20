@@ -30,14 +30,17 @@ function ListOfBooks() {
         if (res.status === 200) {
           // Transform the data to match your table structure
           console.log(res.data);
-          const transformedData = res.data.map((book, index) => ({
-            no: index + 1,
-            author: book.author || "Not provided",
-            owner: book.currentOwner?.email || "No owner",
-            category: book.category || "Not provided",
-            bookName: book.title || "Not provided",
-            status: book.currentOwner?.status || "Inactive",
-          }));
+          const transformedData = res.data
+            .slice()
+            .reverse()
+            .map((book, index) => ({
+              no: index + 1,
+              author: book.author || "Not provided",
+              owner: book.currentOwner?.email || "No owner",
+              category: book.category || "Not provided",
+              bookName: book.title || "Not provided",
+              status: book.currentOwner?.status || "Inactive",
+            }));
           setData(transformedData);
           setLoading(false);
         } else {

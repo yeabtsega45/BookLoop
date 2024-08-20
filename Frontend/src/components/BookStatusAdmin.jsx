@@ -28,13 +28,16 @@ const BookStatusAdmin = () => {
         if (res.status === 200) {
           // Transform the data to match your table structure
           console.log(res.data);
-          const transformedData = res.data.map((book, index) => ({
-            no: index + 1,
-            bookNo: book.bookNo,
-            owner: book.currentOwner?.email || "No owner",
-            status: book.status,
-            price: book.price,
-          }));
+          const transformedData = res.data
+            .slice()
+            .reverse()
+            .map((book, index) => ({
+              no: index + 1,
+              bookNo: book.bookNo,
+              owner: book.currentOwner?.email || "No owner",
+              status: book.status,
+              price: book.price,
+            }));
           setData(transformedData);
           setLoading(false);
         } else {

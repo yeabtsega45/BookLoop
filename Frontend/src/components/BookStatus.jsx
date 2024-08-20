@@ -34,14 +34,17 @@ const BookStatus = () => {
       .then((res) => {
         if (res.status === 200) {
           // Transform the data to match your table structure
-          const transformedData = res.data.map((book, index) => ({
-            no: index + 1,
-            bookNo: book.bookNo,
-            bookName: book.title,
-            status: book.status,
-            price: book.price,
-            _id: book._id,
-          }));
+          const transformedData = res.data
+            .slice()
+            .reverse()
+            .map((book, index) => ({
+              no: index + 1,
+              bookNo: book.bookNo,
+              bookName: book.title,
+              status: book.status,
+              price: book.price,
+              _id: book._id,
+            }));
           setData(transformedData);
           setLoading(false);
         } else {

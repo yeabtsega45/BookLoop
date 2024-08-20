@@ -48,14 +48,17 @@ function ListOfOwners() {
         if (res.status === 200) {
           // Transform the data to match your table structure
           console.log(res.data);
-          const transformedData = res.data.map((user, index) => ({
-            no: index + 1,
-            owner: user.email,
-            upload: user.upload,
-            status: user.status,
-            location: user.location,
-            _id: user._id,
-          }));
+          const transformedData = res.data
+            .slice()
+            .reverse()
+            .map((user, index) => ({
+              no: index + 1,
+              owner: user.email,
+              upload: user.upload,
+              status: user.status,
+              location: user.location,
+              _id: user._id,
+            }));
           setData(transformedData);
           setLoading(false);
         } else {
